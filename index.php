@@ -81,73 +81,82 @@
 
         <div class="row">
             <div class="col-md-2 bg-light p-4">
+                </ul>
                 <ul class="navbar-nav me-auto">
+                    <li class="nav-item bg-secondary-subtle p-2">
+                        <h5>Brands</h5>
+
+                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <h6>Brands </h6>
+                            <h6>Adidas</h6>
                         </a>
 
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <h6>Nike</h6>
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <h6>Moncler</h6>
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <h6>New Balance</h6>
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <h6>Puma</h6>
+                        </a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <h6>The North Face</h6>
+                        </a>
+
+                    </li>
+                </ul> <br></br>
+
 
                 </ul>
                 <ul class="navbar-nav me-auto">
+                    <li class="nav-item bg-secondary-subtle p-2">
+                        <h5>Categories</h5>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <h6>New in </h6>
+                            <h6></h6>
                         </a>
 
                     </li>
-
-                </ul>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Shoes </h6>
-                        </a>
-
-                    </li>
-
-                </ul>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Sportswear </h6>
-                        </a>
-
-                    </li>
-
-                </ul>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Accessories </h6>
-                        </a>
-
-                    </li>
-
-                </ul>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item bg-secondary-subtle">
-                        <h5>Gender</h5>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <h6>Men </h6>
+                            <h6>Clothing</h6>
                         </a>
 
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <h6>Women</h6>
+                            <h6>Shoes</h6>
                         </a>
 
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <h6>Unisex</h6>
+                            <h6>Sportswear</h6>
                         </a>
 
                     </li>
+
 
 
                 </ul>
@@ -239,6 +248,7 @@
                                 <div class="card">
                                     <img src="./images/maxi dress.png" class="card-img-top" alt="...">
                                     <div class="card-body">
+                                        <h5 class="card-title" style="color: #a03a06;">Exclusive</h5>
                                         <h5 class="card-title">Maxi Dress</h5>
                                         <p class="card-text">Fish Tail Maxi Dress in Black</p>
                                         <h6 class="card-text">$69</h6>
@@ -258,11 +268,11 @@
                         <div class="col-md-4">
                             <a href="#" style="text-decoration: none">
                                 <div class="card">
-                                    <img src="./images/New Balance trainers.png" class="card-img-top" alt="...">
+                                    <img src="./images/New Balance trainer.png" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h5 class="card-title">Air Jordan Wordmark</h5>
-                                        <p class="card-text">Men's Fleece Crewneck Sweatshirt</p>
-                                        <h6 class="card-text">$110</h6>
+                                        <h5 class="card-title">New Balance Trainers</h5>
+                                        <p class="card-text">New Balance 530 Trainers in Off-white and Beige</p>
+                                        <h6 class="card-text">$105</h6>
                                         <div class="row">
 
                                             <div class="col-md-6">
@@ -282,10 +292,10 @@
                                 <div class="card">
                                     <img src="./images/Joggers.png" class="card-img-top" alt="...">
                                     <div class="card-body">
-                                        <h5 class="card-title" style="color: #a03a06;">Best Seller</h5>
-                                        <h5 class="card-title">Air Jordan 3 Retro</h5>
-                                        <p class="card-text">Men's Shoes</p>
-                                        <h6 class="card-text">$209</h6>
+
+                                        <h5 class="card-title">Adidas Joggers</h5>
+                                        <p class="card-text">Adidas Football Squadra 21 Joggers in Grey</p>
+                                        <h6 class="card-text">$69</h6>
                                         <div class="row">
 
                                             <div class="col-md-6">
