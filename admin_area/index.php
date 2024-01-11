@@ -64,13 +64,14 @@
                     <p class="text-center">Admin</p>
                 </div>
                 <div class=" text-center p-5 align-items-center">
-                    <button style="border: none;"><a href="" class="btn btn-primary">Insert Products</a></button>
+                    <button style="border: none;"><a href="insert_product.php" class="btn btn-primary">Add
+                            Products</a></button>
                     <button style="border: none;"><a href="" class="btn btn-primary">View Products</a></button>
-                    <button style="border: none;"><a href="index.php? insert_category" class="btn btn-primary">Insert
+                    <button style="border: none;"><a href="index.php? insert_category" class="btn btn-primary">Add
                             Category</a></button>
                     <button style="border: none;margin-top: 10px"><a href="" class="btn btn-primary">View
                             Category</a></button>
-                    <button style="border: none;"><a href="index.php? insert_brand" class="btn btn-primary">Insert
+                    <button style="border: none;"><a href="index.php? insert_brand" class="btn btn-primary">Add
                             Brands</a></button>
                     <button style="border: none;"><a href="" class="btn btn-primary">View Brands</a></button>
                     <button style="border: none;"><a href="" class="btn btn-primary">All Orders</a></button>
@@ -82,7 +83,7 @@
             </div>
         </div>
 
-        <div class="container my-5">
+        <div class="container my-3">
             <?php
             if (isset($_GET['insert_category'])) {
                 include('insert_categories.php');

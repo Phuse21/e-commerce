@@ -1,3 +1,8 @@
+<?php
+include("includes/connectionPage.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,79 +89,43 @@
                 </ul>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item bg-secondary-subtle p-2">
-                        <h5>Brands</h5>
+                        <h5>Categories</h5>
 
                     </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Adidas</h6>
+                    <?php
+                    $select_category = "SELECT * from `categories`";
+                    $result_category = mysqli_query($con, $select_category);
+                    while ($row = mysqli_fetch_assoc($result_category)) {
+                        $category_title = $row['category_title'];
+                        $category_id = $row['category_id'];
+                        echo " <li class='nav-item'>
+                        <a class='nav-link text-dark' href='index.php?category=$category_id'>
+                            $category_title
                         </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Nike</h6>
-                        </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Moncler</h6>
-                        </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>New Balance</h6>
-                        </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Puma</h6>
-                        </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>The North Face</h6>
-                        </a>
-
-                    </li>
-                </ul> <br></br>
+                        </li>";
+                    }
+                    ?> <br>
 
 
                 </ul>
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item bg-secondary-subtle p-2">
-                        <h5>Categories</h5>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6></h6>
+                        <h5>Brands</h5>
+
+                    </li>
+                    <?php
+                    $select_brand = "SELECT * from `brands`";
+                    $result_brand = mysqli_query($con, $select_brand);
+                    while ($row = mysqli_fetch_assoc($result_brand)) {
+                        $brand_title = $row['brand_title'];
+                        $brand_id = $row['brand_id'];
+                        echo " <li class='nav-item'>
+                        <a class='nav-link text-dark' href='index.php?brand=$brand_id'>
+                            $brand_title
                         </a>
-
-                    </li>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Clothing</h6>
-                        </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Shoes</h6>
-                        </a>
-
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <h6>Sportswear</h6>
-                        </a>
-
-                    </li>
-
+                        </li>";
+                    }
+                    ?>
 
 
                 </ul>
