@@ -93,8 +93,9 @@ if (isset($_POST['insert_product'])) {
                 <label for="description" class="form-label">
                     Product Description
                 </label>
-                <input type="text" id="description" name="product_description" class="form-control"
-                    placeholder="Enter product description" autocomplete="off" required="required" />
+                <textarea id="description" name="product_description" class="form-control"
+                    placeholder="Enter product description" autocomplete="off" required="required">
+                </textarea>
             </div>
             <!-- product keywords -->
             <div class="form-outline mb-4 w-50 m-auto">
@@ -102,7 +103,8 @@ if (isset($_POST['insert_product'])) {
                     Product Keyword
                 </label>
                 <input type="text" id="keyword" name="product_keywords" class="form-control"
-                    placeholder="Enter product keyword" autocomplete="off" required="required" />
+                    placeholder="Enter product keyword" style="padding: 10px; margin: auto;" autocomplete="off"
+                    required="required" />
             </div>
             <!-- categories -->
             <div class="form-outline mb-4 w-50 m-auto">
