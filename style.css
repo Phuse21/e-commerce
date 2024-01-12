@@ -22,19 +22,23 @@
     transform: scale(1.02);
 }
 
+.card .nav-link {
+    position: relative;
+}
+
 .card .nav-link:hover {
     color: black;
     /* Change the color to your desired hover color */
 }
 
 .card .nav-link:hover::after {
-    content: "Add to cart";
-    /* The text to display for the bag icon */
+    content: attr(data-hover-message);
+    /* The text to display for the hover message */
     position: absolute;
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: black;
     color: white;
     padding: 5px 10px;
     border-radius: 5px;

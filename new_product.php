@@ -90,14 +90,14 @@ include("functions/common_functions.php");
                 </ul>
                 <ul class="navbar-nav me-auto">
                     <li class='nav-item'>
-                        <a class='nav-link text-dark' href='new_product.php?New'>
+                        <a class='nav-link text-dark' href=''>
                             <h5>New in</h5>
                         </a>
                     </li>
                     <?php
                     //calling function
-    
-                    ?> <br>
+                    
+                    ?>
 
 
                 </ul>
@@ -114,7 +114,7 @@ include("functions/common_functions.php");
 
                 </ul>
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item p-2">
+                    <li class="nav-item  p-2">
                         <h5>Brands</h5>
 
                     </li>
@@ -130,41 +130,26 @@ include("functions/common_functions.php");
 
 
             </div>
-            <?php if (!isset($brand_id) && !isset($category_id)): ?>
+
             <div class="col-md-10">
                 <div>
-                    <h4>Featured Products</h4>
+                    <h4 class="text-center">New in</h4>
                 </div>
-
                 <div class="row" style="margin-top: 20px; padding: 0">
                     <!--fetching products-->
                     <?php
-                        // calling function
-                        get_featured_products();
+                    // calling function
+                    display_new_products();
 
-                        ?>
+                    ?>
 
-                    <div>
-                        <h4>Trending Products</h4>
-                    </div>
 
-                    <div class="row" style="margin-top: 20px; padding: 0">
-                        <!--fetching products-->
-                        <?php
-                            // calling function
-                            get_trending_products();
-
-                            ?>
-                    </div>
 
                 </div> <!-- row end -->
 
             </div> <!-- col end -->
-            <?php else: ?>
-            <div style="display: none;">
-                <h4>Featured Products</h4>
-            </div>
-            <?php endif; ?>
+
+
 
 
 
@@ -182,7 +167,7 @@ include("functions/common_functions.php");
         <!-- Bootstrap js link -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+            </script>
 </body>
 
 </html>
