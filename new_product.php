@@ -36,7 +36,7 @@ include("functions/common_functions.php");
                 <div class="collapse navbar-collapse" id="navbarScroll">
                     <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/">Home</a>
+                            <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Men</a>
@@ -50,9 +50,11 @@ include("functions/common_functions.php");
 
 
                     </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    <form class="d-flex" action="search_product.php" method="get">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
+                            name="search_data">
+                        <input type="submit" value="Search" class="btn btn-outline-light text-dark"
+                            name="search_data_product">
                     </form>
 
                     <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">

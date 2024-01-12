@@ -88,6 +88,9 @@ function get_trending_products()
 
     }
 }
+
+
+
 function get_unique_categories()
 {
     global $con;
@@ -288,5 +291,60 @@ function get_categories()
     }
 }
 
+
+
+//search products
+function search_product()
+{
+    global $con;
+    if (isset($_GET['search_data_product'])) {
+
+        $search_data_value = $_GET['search_data'];
+
+
+        $search_query = "SELECT * FROM `products` WHERE product_keywords LIKE '%$search_data_value%'";
+        $result_query = mysqli_query($con, $search_query);
+
+
+
+        if (mysqli_num_rows($result_query) > 0) {
+
+            // Display the search keyword
+            echo "<p>Showing results for: $search_data_value</p>";
+
+            while ($row = mysqli_fetch_assoc($result_query)) {
+                $product_id = $row['product_id'];
+                $product_title = $row['product_title'];
+                $product_description = $row['product_description'];
+                $product_price = $row['product_price'];
+                $product_image1 = $row['product_image1'];
+                echo "    <div class='col-md-4 mb-4'>
+<a href='#' style='text-decoration: none'>
+    <div class='card'>
+        <img src='./admin_area/product_images/$product_image1' class='card-img-top' alt='...'>
+        <div class='card-body'>
+            <h5 class='card-title'> $product_title</h5>
+            <p class='card-text'>$product_description</p>
+            <h6 class='card-text'>$product_price</h6>
+            <div class='row'>
+                <div class='col-md-6'>
+                    <a class='nav-link' href='#' ><i class='fa fa-shopping-bag'></i></a>
+                </div>
+                <div class='col-md-6'>
+                    <a class='nav-link favorite' href='#'><i class='fa fa-heart text-danger'
+                            aria-hidden='true'></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</a>
+</div>";
+            }
+
+        } else {
+            echo "<p>No results found</p>";
+        }
+    }
+}
 
 ?>

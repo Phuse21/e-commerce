@@ -30,9 +30,12 @@
     color: black;
     /* Change the color to your desired hover color */
 }
+.card .nav-link:hover::after {
+    opacity: 1;
+}
 
 .card .nav-link:hover::after {
-    content: attr(data-hover-message);
+    content: "Add to favorites";
     /* The text to display for the hover message */
     position: absolute;
     top: 100%;
@@ -47,9 +50,7 @@
     transition: opacity 0.2s ease;
 }
 
-.card .nav-link:hover::after {
-    opacity: 1;
-}
+
 
 .card .favorite:hover::after {
     content: "Add to favorites";
