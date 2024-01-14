@@ -128,7 +128,10 @@ include("functions/common_functions.php");
 
                 </ul>
 
-
+                <?php
+                //calling cart function
+                cart();
+                ?>
 
 
             </div>

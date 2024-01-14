@@ -486,4 +486,30 @@ function getIPAddress()
 // echo 'User IP Address - ' . $ip;
 
 
+// function for cart
+
+function cart()
+{
+    if (isset($_GET['add_to_cart'])) {
+        global $con;
+        $ip = getIPAddress();
+        $get_product_id = $_GET['add_to_cart'];
+        $select_query = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'
+         AND product_id = '$get_product_id'";
+        $result = mysqli_query($con, $select_query);
+        $num_of_rows = mysqli_num_rows($result);
+        if ($num_of_rows > 0) {
+            echo "<script>alert('Item Already Added To Cart')</script>";
+            echo "<script>window.open('index.php', '_self')</script>";
+        } else {
+            $insert_query = "INSERT INTO `cart_details` (product_id, ip_address, quantity, time)
+             VALUES ('$get_product_id', '$ip', '0', now())";
+            $result_query = mysqli_query($con, $insert_query);
+            echo "<script>alert('Item Added To Cart')</script>";
+            echo "<script>window.open('index.php', '_self')</script>";
+        }
+    }
+}
+
+
 ?>

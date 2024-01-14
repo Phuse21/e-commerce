@@ -129,7 +129,10 @@ include("functions/common_functions.php");
                 </ul>
 
 
-
+                <?php
+                //calling cart function
+                cart();
+                ?>
 
             </div>
             <?php if (!isset($brand_id) && !isset($category_id)): ?>

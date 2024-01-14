@@ -183,7 +183,10 @@ include("functions/common_functions.php");
 
 
 
-
+        <?php
+        //calling cart function
+        cart();
+        ?>
 
 
         <div class="row p-3" style="margin-top: 20px;">
