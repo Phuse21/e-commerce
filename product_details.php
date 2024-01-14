@@ -20,7 +20,102 @@ include("functions/common_functions.php");
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+
+
+        .logo {
+            width: 4%;
+            height: 4%;
+        }
+
+        .card a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+
+        .card .nav-link {
+            position: relative;
+        }
+
+        .card .nav-link:hover {
+            color: black;
+            /* Change the color to your desired hover color */
+        }
+
+        .card .nav-link:hover::after {
+            opacity: 1;
+        }
+
+        .card .nav-link:hover::after {
+            content: "Add to favorites";
+            /* The text to display for the hover message */
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: black;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .image-container {
+            position: relative;
+            overflow: hidden;
+
+        }
+
+        .image-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-container:hover::before {
+            opacity: 1;
+        }
+
+        .image-container-img {
+            padding: 10px;
+            transition: transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-container:hover .image-container-img {
+            transform: scale(1.1);
+        }
+
+
+
+        .card .favorite:hover::after {
+            content: "Add to favorites";
+            /* The text to display for the favorite icon */
+        }
+
+        .card-img-top {
+            height: 400px;
+            /* Set the desired height for the images */
+            object-fit: cover;
+        }
+    </style>
 </head>
 
 <body>
@@ -87,99 +182,48 @@ include("functions/common_functions.php");
         </div>
 
 
-        <div class="row">
-            <div class="col-md-2 bg-light p-4">
-                </ul>
-                <ul class="navbar-nav me-auto">
-                    <li class='nav-item'>
-                        <a class='nav-link text-dark' href='new_product.php?New'>
-                            <h5>New in</h5>
-                        </a>
-                    </li>
-                    <?php
-                    //calling function
-                    
-                    ?>
-
-
-                </ul>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item p-2">
-                        <h5>Categories</h5>
-
-                    </li>
-                    <?php
-                    //calling function
-                    get_categories();
-                    ?> <br>
-
-
-                </ul>
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item  p-2">
-                        <h5>Brands</h5>
-
-                    </li>
-                    <?php
-                    //calling function
-                    get_brands();
-                    ?>
-
-
-                </ul>
 
 
 
 
-            </div>
-            <?php if (!isset($brand_id) && !isset($category_id)): ?>
-                <div class="col-md-10">
-
-                    <div class="row" style="margin-top: 20px; padding: 0">
-                        <!--fetching products-->
-                        <?php
-                        // calling function
-                        get_products();
-                        get_unique_categories();
-                        get_unique_brands();
-
-                        ?>
-
-                        <div class="row" style="margin-top: 20px; padding: 0">
-                            <!--fetching products-->
-                            <?php
-                            // calling function
-                            get_products();
-
-                            ?>
-                        </div>
-
-                    </div> <!-- row end -->
-
-                </div> <!-- col end -->
-            <?php else: ?>
-                <div style="display: none;">
-                    <h4>Featured Products</h4>
-                </div>
-            <?php endif; ?>
-
-
-
-            <div class="bg-light d-flex justify-content-between footer">
-                <P class="text-center"> &copy;2024 SoleStride, Inc. All rights Reserved</P>
-                <a href="">
-                    <p>Help</p>
-                </a>
-            </div>
+        <div class="row p-3" style="margin-top: 20px;">
+            <?php
+            display_details();
+            ?>
 
         </div>
+        <!-- row end -->
+
+        <div class="row p-3 mb-4 mt-4" style="width: 100%;">
+            <h5>Similar Products</h5>
+
+
+            <?php
+            showRelatedProducts();
+            ?>
+
+        </div><!-- col end -->
 
 
 
-        <!-- Bootstrap js link -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-            </script>
+
+
+
+        <div class="bg-light d-flex justify-content-between footer">
+            <P class="text-center"> &copy;2024 SoleStride, Inc. All rights Reserved</P>
+            <a href="">
+                <p>Help</p>
+            </a>
+        </div>
+
+    </div>
+
+
+
+    <!-- Bootstrap js link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+        </script>
 </body>
 
 </html>

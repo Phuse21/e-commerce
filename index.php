@@ -142,7 +142,7 @@ include("functions/common_functions.php");
                         <!--fetching products-->
                         <?php
                         // calling function
-                        get_featured_products();
+                        get_products();
 
                         ?>
 
@@ -154,9 +154,9 @@ include("functions/common_functions.php");
                             <!--fetching products-->
                             <?php
                             // calling function
-                            get_trending_products();
+                            get_products()
 
-                            ?>
+                                ?>
                         </div>
 
                     </div> <!-- row end -->
