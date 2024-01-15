@@ -21,100 +21,100 @@ include("functions/common_functions.php");
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
 
 
 
-        .logo {
-            width: 4%;
-            height: 4%;
-        }
+    .logo {
+        width: 4%;
+        height: 4%;
+    }
 
-        .card a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-
-        .card .nav-link {
-            position: relative;
-        }
-
-        .card .nav-link:hover {
-            color: black;
-            /* Change the color to your desired hover color */
-        }
-
-        .card .nav-link:hover::after {
-            opacity: 1;
-        }
-
-        .card .nav-link:hover::after {
-            content: "Add to favorites";
-            /* The text to display for the hover message */
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: black;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 14px;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .image-container {
-            position: relative;
-            overflow: hidden;
-
-        }
-
-        .image-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .image-container:hover::before {
-            opacity: 1;
-        }
-
-        .image-container-img {
-            padding: 10px;
-            transition: transform 0.3s ease;
-            width: 100%;
-            height: 100%;
-        }
-
-        .image-container:hover .image-container-img {
-            transform: scale(1.1);
-        }
+    .card a {
+        color: inherit;
+        text-decoration: none;
+    }
 
 
+    .card .nav-link {
+        position: relative;
+    }
 
-        .card .favorite:hover::after {
-            content: "Add to favorites";
-            /* The text to display for the favorite icon */
-        }
+    .card .nav-link:hover {
+        color: black;
+        /* Change the color to your desired hover color */
+    }
 
-        .card-img-top {
-            height: 400px;
-            /* Set the desired height for the images */
-            object-fit: cover;
-        }
+    .card .nav-link:hover::after {
+        opacity: 1;
+    }
+
+    .card .nav-link:hover::after {
+        content: "Add to favorites";
+        /* The text to display for the hover message */
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: black;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .image-container {
+        position: relative;
+        overflow: hidden;
+
+    }
+
+    .image-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-container:hover::before {
+        opacity: 1;
+    }
+
+    .image-container-img {
+        padding: 10px;
+        transition: transform 0.3s ease;
+        width: 100%;
+        height: 100%;
+    }
+
+    .image-container:hover .image-container-img {
+        transform: scale(1.1);
+    }
+
+
+
+    .card .favorite:hover::after {
+        content: "Add to favorites";
+        /* The text to display for the favorite icon */
+    }
+
+    .card-img-top {
+        height: 400px;
+        /* Set the desired height for the images */
+        object-fit: cover;
+    }
     </style>
 </head>
 
@@ -154,10 +154,18 @@ include("functions/common_functions.php");
 
                     <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-shopping-bag"></i><sup>1</sup></a>
+                            <a class="nav-link" style="margin-left: 10px;" href="#"><i
+                                    class="fa fa-shopping-bag"></i><sup>
+                                    <?php cart_items(); ?>
+                                </sup></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Total Price:100/-</a>
+                            <a class="nav-link" href="#">Total Price:
+
+                                <?php echo"$";{
+                                    total_cart_price();
+                                } ?>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -226,7 +234,7 @@ include("functions/common_functions.php");
     <!-- Bootstrap js link -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+    </script>
 </body>
 
 </html>

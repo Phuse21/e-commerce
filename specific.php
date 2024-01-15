@@ -59,10 +59,18 @@ include("functions/common_functions.php");
 
                     <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-shopping-bag"></i><sup>1</sup></a>
+                            <a class="nav-link" style="margin-left: 10px;" href="#"><i
+                                    class="fa fa-shopping-bag"></i><sup>
+                                    <?php cart_items(); ?>
+                                </sup></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Total Price:100/-</a>
+                            <a class="nav-link" href="#">Total Price:
+
+                                <?php echo "$"; {
+                                    total_cart_price();
+                                } ?>
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -136,11 +144,11 @@ include("functions/common_functions.php");
 
             </div>
             <?php if (!isset($brand_id) && !isset($category_id)): ?>
-                <div class="col-md-10">
+            <div class="col-md-10">
 
-                    <div class="row" style="margin-top: 20px; padding: 0">
-                        <!--fetching products-->
-                        <?php
+                <div class="row" style="margin-top: 20px; padding: 0">
+                    <!--fetching products-->
+                    <?php
                         // calling function
                         get_products();
                         get_unique_categories();
@@ -148,22 +156,22 @@ include("functions/common_functions.php");
 
                         ?>
 
-                        <div class="row" style="margin-top: 20px; padding: 0">
-                            <!--fetching products-->
-                            <?php
+                    <div class="row" style="margin-top: 20px; padding: 0">
+                        <!--fetching products-->
+                        <?php
                             // calling function
                             get_products();
 
                             ?>
-                        </div>
+                    </div>
 
-                    </div> <!-- row end -->
+                </div> <!-- row end -->
 
-                </div> <!-- col end -->
+            </div> <!-- col end -->
             <?php else: ?>
-                <div style="display: none;">
-                    <h4>Featured Products</h4>
-                </div>
+            <div style="display: none;">
+                <h4>Featured Products</h4>
+            </div>
             <?php endif; ?>
 
 
@@ -182,7 +190,7 @@ include("functions/common_functions.php");
         <!-- Bootstrap js link -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-            </script>
+        </script>
 </body>
 
 </html>

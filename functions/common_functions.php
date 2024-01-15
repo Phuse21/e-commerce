@@ -512,4 +512,48 @@ function cart()
 }
 
 
+// function for total cart items
+
+function cart_items()
+{
+    if (isset($_GET['add_to_cart'])) {
+        global $con;
+        $ip = getIPAddress();
+        $select_query = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
+        $result = mysqli_query($con, $select_query);
+        $num_of_rows = mysqli_num_rows($result);
+
+    } else {
+        global $con;
+        $ip = getIPAddress();
+        $select_query = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
+        $result = mysqli_query($con, $select_query);
+        $num_of_rows = mysqli_num_rows($result);
+    }
+    echo $num_of_rows;
+}
+
+
+//total price function
+function total_cart_price()
+{
+    global $con;
+    $ip = getIPAddress();
+    $total_price = 0;
+    $cart_query = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
+    $result = mysqli_query($con, $cart_query);
+    while ($row = mysqli_fetch_array($result)) {
+        $product_id = $row['product_id'];
+        $select_products = "SELECT * FROM `products` WHERE product_id = '$product_id'";
+        $result_product = mysqli_query($con, $select_products);
+        while ($row_product_price = mysqli_fetch_array($result_product)) {
+            $product_price = array($row_product_price['product_price']);
+            $values = array_sum($product_price);
+            $total_price += $values;
+        }
+    }
+    echo $total_price;
+
+}
+
 ?>
