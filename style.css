@@ -63,3 +63,10 @@
     object-fit: cover;
 }
 
+.delete-button {
+    margin-top: auto;
+    
+    margin-right: 10;
+    
+    cursor: pointer;
+}

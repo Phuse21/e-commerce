@@ -105,8 +105,8 @@ include("functions/common_functions.php");
                         </a>
                     </li>
                     <?php
+
                     //calling function
-                    
                     ?> <br>
 
 
@@ -137,19 +137,19 @@ include("functions/common_functions.php");
                 </ul>
                 <?php
                 //calling cart function
-                cart();
+                addToCart($productId);
                 ?>
 
 
 
             </div>
             <?php if (!isset($brand_id) && !isset($category_id)): ?>
-            <div class="col-md-10">
+                <div class="col-md-10">
 
 
-                <div class="row" style="margin-top: 20px; padding: 0">
-                    <!--fetching products-->
-                    <?php
+                    <div class="row" style="margin-top: 20px; padding: 0">
+                        <!--fetching products-->
+                        <?php
                         // calling function
                     
                         search_product();
@@ -157,22 +157,22 @@ include("functions/common_functions.php");
                         ?>
 
 
-                    <div class="row" style="margin-top: 20px; padding: 0">
-                        <!--fetching products-->
-                        <?php
+                        <div class="row" style="margin-top: 20px; padding: 0">
+                            <!--fetching products-->
+                            <?php
                             // calling function
                         
 
                             ?>
-                    </div>
+                        </div>
 
-                </div> <!-- row end -->
+                    </div> <!-- row end -->
 
-            </div> <!-- col end -->
+                </div> <!-- col end -->
             <?php else: ?>
-            <div style="display: none;">
-                <h4>Featured Products</h4>
-            </div>
+                <div style="display: none;">
+                    <h4>Featured Products</h4>
+                </div>
             <?php endif; ?>
 
 
@@ -191,7 +191,7 @@ include("functions/common_functions.php");
         <!-- Bootstrap js link -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+            </script>
 </body>
 
 </html>

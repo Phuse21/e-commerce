@@ -1,4 +1,7 @@
 <?php
+
+
+
 //include connection
 include("./includes/connectionPage.php");
 
@@ -8,6 +11,9 @@ include("./includes/connectionPage.php");
 
 function get_products()
 {
+
+    $html = '';
+
     global $con;
     //check isset or not
     if (!isset($_GET['category'])) {
@@ -20,14 +26,16 @@ function get_products()
                 $product_description = $row['product_description'];
                 $product_price = $row['product_price'];
                 $product_image1 = $row['product_image1'];
-                echo "    <div class='col-md-4 mb-4'>
+
+
+                $html .= "    <div class='col-md-4 mb-4'>
 <a href='product_details.php?product_id=$product_id' style='text-decoration: none'>
     <div class='card'>
         <img src='./admin_area/product_images/$product_image1' class='card-img-top' alt='...'>
         <div class='card-body'>
             <h5 class='card-title'> $product_title</h5>
             <p class='card-text'>$product_description</p>
-            <h6 class='card-text'>$product_price</h6>
+            <h6 class='card-text'>$$product_price</h6>
             <div class='row'>
                 <div class='col-md-6'>
                     <a  href='index.php?add_to_cart=$product_id' ><button type='button' class='btn btn-primary btn-sm mt-2 mb-2'
@@ -53,6 +61,7 @@ function get_products()
         }
 
     }
+    return $html;
 }
 
 
@@ -83,6 +92,9 @@ function get_unique_categories()
                 $product_description = $row['product_description'];
                 $product_price = $row['product_price'];
                 $product_image1 = $row['product_image1'];
+
+
+
                 echo "    <div class='col-md-4 mb-4'>
 <a href='product_details.php?product_id=$product_id' style='text-decoration: none'>
     <div class='card'>
@@ -90,7 +102,7 @@ function get_unique_categories()
         <div class='card-body'>
             <h5 class='card-title'> $product_title</h5>
             <p class='card-text'>$product_description</p>
-            <h6 class='card-text'>$product_price</h6>
+            <h6 class='card-text'>$$product_price</h6>
             <div class='row'>
                 <div class='col-md-6'>
                 <a  href='index.php?add_to_cart=$product_id' ><button type='button' class='btn btn-primary btn-sm mt-2 mb-2'
@@ -156,7 +168,7 @@ function get_unique_brands()
         <div class='card-body'>
             <h5 class='card-title'> $product_title</h5>
             <p class='card-text'>$product_description</p>
-            <h6 class='card-text'>$product_price</h6>
+            <h6 class='card-text'>$$product_price</h6>
             <div class='row'>
                 <div class='col-md-6'>
                 <a  href='index.php?add_to_cart=$product_id' ><button type='button' class='btn btn-primary btn-sm mt-2 mb-2'
@@ -213,7 +225,7 @@ function display_new_products()
                         <div class='card-body'>
                             <h5 class='card-title'>$product_title</h5>
                             <p class='card-text'>$product_description</p>
-                            <h6 class='card-text'>$product_price</h6>
+                            <h6 class='card-text'>$$product_price</h6>
                             <div class='row'>
                                 <div class='col-md-6'>
                                 <a  href='index.php?add_to_cart=$product_id' ><button type='button' class='btn btn-primary btn-sm mt-2 mb-2'
@@ -312,7 +324,7 @@ function search_product()
         <div class='card-body'>
             <h5 class='card-title'> $product_title</h5>
             <p class='card-text'>$product_description</p>
-            <h6 class='card-text'>$product_price</h6>
+            <h6 class='card-text'>$$product_price</h6>
             <div class='row'>
                 <div class='col-md-6'>
                 <a  href='index.php?add_to_cart=$product_id' ><button type='button' class='btn btn-primary btn-sm mt-2 mb-2'
@@ -362,7 +374,7 @@ function display_details()
                     $product_image2 = $row['product_image2'];
                     $product_image3 = $row['product_image3'];
                     echo "    <div class= 'col-md-8'>
-                    <div><img src='./admin_area/product_images/$product_image1' 
+                    <div><img src='./admin_area/product_images/$product_image2' 
                     class='img-thumbnail' style='height: 100%; width: 100%;' alt='...'></div>
     
                 </div>
@@ -379,7 +391,7 @@ function display_details()
                                 <div class='col-md-6'>
                                     <a href=''>
                                         <div class='image-container'>
-                                            <img src='./admin_area/product_images/$product_image2'
+                                            <img src='./admin_area/product_images/$product_image1'
                                                 class='rounded float-start img-fluid image-container-img'
                                                 style='height: 200px' alt='...'>
                                         </div>
@@ -454,9 +466,9 @@ function showRelatedProducts()
                         </div>
 
                         <div class='card-body'>
-                            <h5 class='card-title'> $product_title</h5>
+                            <h5 class='card-title'>$product_title</h5>
                             <p class='card-text'>$product_description</p>
-                            <h6 class='card-text'>$product_price</h6>
+                            <h6 class='card-text'>$$product_price</h6>
                         </div>
                     </div>
                 </a>
@@ -488,72 +500,210 @@ function getIPAddress()
 
 // function for cart
 
-function cart()
+
+session_start(); // Start the session
+
+function addToCart($productId)
 {
-    if (isset($_GET['add_to_cart'])) {
-        global $con;
-        $ip = getIPAddress();
-        $get_product_id = $_GET['add_to_cart'];
-        $select_query = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'
-         AND product_id = '$get_product_id'";
-        $result = mysqli_query($con, $select_query);
-        $num_of_rows = mysqli_num_rows($result);
-        if ($num_of_rows > 0) {
-            echo "<script>alert('Item Already Added To Cart')</script>";
-            echo "<script>window.open('index.php', '_self')</script>";
-        } else {
-            $insert_query = "INSERT INTO `cart_details` (product_id, ip_address, quantity, time)
-             VALUES ('$get_product_id', '$ip', '0', now())";
-            $result_query = mysqli_query($con, $insert_query);
-            echo "<script>alert('Item Added To Cart')</script>";
-            echo "<script>window.open('index.php', '_self')</script>";
-        }
+    if (empty($productId)) {
+        return;
     }
+
+    // Initialize an empty array to store cart items
+    $cartItems = isset($_SESSION['cartItems']) ? $_SESSION['cartItems'] : array();
+
+    // Check if the product is already in the cart
+    if (in_array($productId, $cartItems)) {
+        // If the item is already in the cart, display alert and return early
+        echo "<script>alert('Item Already Added To Bag');</script>";
+        echo "<script>window.open('index.php', '_self');</script>";
+        exit; // Stop further execution of PHP script
+    }
+
+    // Add the product ID to the cart items array
+    $cartItems[] = $productId;
+
+    // Store the cart items in the session
+    $_SESSION['cartItems'] = $cartItems;
+
+    // JavaScript code for displaying an alert message
+    echo "<script>alert('Item Added To Bag');</script>";
+
+
+    // Redirect back to the same index page after processing
+    echo "<script>window.open('index.php', '_self');</script>";
+    exit; // Stop further execution of PHP script
 }
+
+// Check if 'add_to_cart' parameter is set in the URL
+if (isset($_GET['add_to_cart'])) {
+    // Get the product ID to add to cart
+    $product_id = $_GET['add_to_cart'];
+
+    // Add the product to the cart
+    addToCart($product_id);
+}
+
+
+
 
 
 // function for total cart items
 
 function cart_items()
 {
-    if (isset($_GET['add_to_cart'])) {
-        global $con;
-        $ip = getIPAddress();
-        $select_query = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
-        $result = mysqli_query($con, $select_query);
-        $num_of_rows = mysqli_num_rows($result);
+    // Initialize total items count
+    $totalItems = 0;
 
-    } else {
-        global $con;
-        $ip = getIPAddress();
-        $select_query = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
-        $result = mysqli_query($con, $select_query);
-        $num_of_rows = mysqli_num_rows($result);
+    // Check if 'cartItems' session variable is set and not empty
+    if (isset($_SESSION['cartItems']) && !empty($_SESSION['cartItems'])) {
+        // Retrieve cart items from the session
+        $cartItems = $_SESSION['cartItems'];
+
+        // Check if it's an array
+        if (is_array($cartItems)) {
+            // Calculate the total number of items in the cart
+            $totalItems = count($cartItems);
+        } else {
+            // If it's not an array, log an error or handle it accordingly
+            echo "<script>console.error('Error retrieving cart items from session');</script>";
+        }
     }
-    echo $num_of_rows;
+
+    echo $totalItems;
 }
+
 
 
 //total price function
 function total_cart_price()
 {
     global $con;
-    $ip = getIPAddress();
-    $total_price = 0;
-    $cart_query = "SELECT * FROM `cart_details` WHERE ip_address = '$ip'";
-    $result = mysqli_query($con, $cart_query);
-    while ($row = mysqli_fetch_array($result)) {
-        $product_id = $row['product_id'];
-        $select_products = "SELECT * FROM `products` WHERE product_id = '$product_id'";
-        $result_product = mysqli_query($con, $select_products);
-        while ($row_product_price = mysqli_fetch_array($result_product)) {
-            $product_price = array($row_product_price['product_price']);
-            $values = array_sum($product_price);
-            $total_price += $values;
+    // Initialize total price
+    $totalPrice = 0;
+
+    // Check if 'cartItems' session variable is set and not empty
+    if (isset($_SESSION['cartItems']) && !empty($_SESSION['cartItems'])) {
+        // Retrieve cart items from the session
+        $cartItems = $_SESSION['cartItems'];
+
+        // Calculate the total price of the cart
+        foreach ($cartItems as $product_id) {
+            $select_products = "SELECT * FROM `products` WHERE product_id = '$product_id'";
+            $result_product = mysqli_query($con, $select_products);
+            $row_product_price = mysqli_fetch_array($result_product);
+            $totalPrice += $row_product_price['product_price'];
         }
     }
-    echo $total_price;
-
+    echo $totalPrice;
 }
 
-?>
+
+
+
+//display cart item function
+function display_cart_items()
+{
+    $html = '';
+
+    global $con;
+
+    // Check if the 'cartItems' session variable is set and not empty
+    if (isset($_SESSION['cartItems']) && !empty($_SESSION['cartItems'])) {
+        // Retrieve cart items from the session
+        $cartItems = $_SESSION['cartItems'];
+
+        // Handle item deletion if submitted
+        if (isset($_POST['delete_product_id'])) {
+            // Sanitize input to prevent SQL injection
+            $delete_product_id = mysqli_real_escape_string($con, $_POST['delete_product_id']);
+
+            // Remove the product from the session
+            if (($key = array_search($delete_product_id, $cartItems)) !== false) {
+                unset($cartItems[$key]);
+                $_SESSION['cartItems'] = $cartItems;
+            }
+        }
+
+        // Check if the cart is empty after item deletion
+        if (empty($cartItems)) {
+            // Return message indicating cart is empty
+            return "<p>Your cart is empty.</p>";
+        }
+
+        // Loop through the cart items
+        foreach ($cartItems as $product_id) {
+            // Use prepared statements to fetch product details
+            $select_query = "SELECT * FROM `products` WHERE product_id = ?";
+            $stmt = $con->prepare($select_query);
+            if (!$stmt) {
+                // Error handling for failed prepared statement
+                $html .= "<p>Error: Failed to prepare SQL statement.</p>";
+                continue; // Skip to the next iteration of the loop
+            }
+            $stmt->bind_param("i", $product_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if (!$result) {
+                // Error handling for failed query execution
+                $html .= "<p>Error: Failed to execute SQL query.</p>";
+                continue; // Skip to the next iteration of the loop
+            }
+            $row = $result->fetch_assoc();
+            $stmt->close();
+
+            // Check if the product details are found
+            if ($row) {
+                // Generate HTML markup for the item card
+                $product_title = htmlspecialchars($row['product_title']);
+                $product_image1 = htmlspecialchars($row['product_image1']);
+                $product_description = htmlspecialchars($row['product_description']);
+                $product_price = htmlspecialchars($row['product_price']);
+
+                // Append HTML markup for the item card
+                $html .= "
+                <form action='' method='post'>
+                    <div class='card mb-2 mx-4'>
+                        <div class='row g-0'>
+                            <div class='col-md-4'>
+                                <img src='./admin_area/product_images/$product_image1' class='img-fluid rounded-start' style='height: 200px' alt='...'>
+                            </div>
+                            <div class='col-md-8'>
+                                <div class='card-body'>
+                                    <div class='d-flex justify-content-between'>
+                                        <h5 class='card-title'>$product_title</h5>
+                                        <span class='card-price' id='price_$product_id'>$$product_price</span>
+                                    </div>
+                                    <p class='card-text'>$product_description</p>
+                                    <label for='quantity'>Quantity:</label>
+                                    <select class='form-select form-select-sm w-25' aria-label='' name='quantity_$product_id' id='quantity_$product_id'
+                                     onchange='updateItem(this.value, $product_price, $product_id)'>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                    </select>
+                                    <div class='position-relative'>
+                                        <button type='submit' class='btn btn-danger position-absolute bottom-0 end-0 delete-button' data-product-id='$product_id'>
+                                            <i class='fa fa-trash' aria-hidden='true'></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type='hidden' name='delete_product_id' value='$product_id'>
+                </form>
+                ";
+            } else {
+                // Error handling for missing product details
+                $html .= "<p>Error: Product details not found.</p>";
+            }
+        }
+    } else {
+        // Return message indicating cart is empty
+        $html .= "<p>Your cart is empty.</p>";
+    }
+
+    return $html;
+}

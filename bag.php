@@ -2,6 +2,7 @@
 include("includes/connectionPage.php");
 include("functions/common_functions.php");
 
+
 ?>
 
 <!DOCTYPE html>
@@ -45,30 +46,6 @@ include("functions/common_functions.php");
         position: relative;
     }
 
-    .card .nav-link:hover {
-        color: black;
-        /* Change the color to your desired hover color */
-    }
-
-    .card .nav-link:hover::after {
-        opacity: 1;
-    }
-
-    .card .nav-link:hover::after {
-        content: "Add to favorites";
-        /* The text to display for the hover message */
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: black;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 14px;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-    }
 
     .image-container {
         position: relative;
@@ -104,16 +81,14 @@ include("functions/common_functions.php");
     }
 
 
-
-    .card .favorite:hover::after {
-        content: "Add to favorites";
-        /* The text to display for the favorite icon */
-    }
-
     .card-img-top {
         height: 400px;
         /* Set the desired height for the images */
         object-fit: cover;
+    }
+
+    .card-price {
+        margin-left: auto;
     }
     </style>
 </head>
@@ -152,22 +127,6 @@ include("functions/common_functions.php");
                             name="search_data_product">
                     </form>
 
-                    <ul class="navbar-nav my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item">
-                            <a class="nav-link" style="margin-left: 10px;" href="#"><i
-                                    class="fa fa-shopping-bag"></i><sup>
-                                    <?php cart_items(); ?>
-                                </sup></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Total Price:
-
-                                <?php echo "$"; {
-                                    total_cart_price();
-                                } ?>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </nav>
@@ -189,44 +148,105 @@ include("functions/common_functions.php");
             <p class="text-center">Get Unlimited Next Day Delivery for a Whole Year for just $6.98</p>
         </div>
 
-
-
         <?php
+
         $productId = isset($_GET['add_to_cart']) ? $_GET['add_to_cart'] : null;
+
         //calling cart function
         addToCart($productId);
         ?>
 
+        <div class="row mt-2 mb-2">
 
-        <div class="row p-3" style="margin-top: 20px;">
-            <?php
-            display_details();
-            ?>
 
+            <div class="col-md-8 p-3 ">
+                <div class="card w-60 mx-4 mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">Members get free shipping on orders $50+</h5>
+                        <p class="card-text">Become a SoleStride Member for fast free shipping on orders $50+ <a
+                                href="">Join us</a> or <a href="">Sign-in</a> .</p>
+
+                    </div>
+                </div>
+                <div class="mx-4">
+                    <h5>Bag</h5>
+                </div>
+
+                <?php
+
+                $html = display_cart_items();
+                echo $html;
+
+                ?>
+
+
+            </div>
+            <!--col end-->
+
+
+            <div class="col-md-4 p-3">
+                <div>
+                    <h4>
+                        Summary
+                    </h4>
+                </div>
+
+                <div class="mt-4 justify-content-between">
+                    <h6>
+                        <div>Subtotal: <span id="subtotal"></div>
+                    </h6>
+                </div>
+
+                <div class="mt-4 justify-content-between">
+                    <h6>
+                        <div>VAT: <span id="vat"></span></div>
+                    </h6>
+                </div>
+
+
+                <div class="mt-4 justify-content-between">
+                    <h5>
+                        <div>Total Price: <span id="total_price"></span></div>
+                    </h5>
+                </div>
+                <a href=''> <button type='button' class='btn btn-primary btn-lg mt-2 mb-2 text-center'
+                        style='width: 70%; background-color:black; border-radius: 30px; border: 1px solid black;'>
+                        Checkout
+
+                    </button> </a>
+
+                <a href=''> <button type='button' class='btn btn-primary btn-lg mt-2 mb-2 text-dark' style='width: 70%; background-color:white; border-radius: 30px;
+                            border: 1px solid black; text'>
+                        Continue Shopping
+
+                    </button></a>
+            </div>
         </div>
-        <!-- row end -->
 
-        <div class="row p-3 mb-4 mt-4" style="width: 100%;">
-            <h5>Similar Products</h5>
+    </div>
 
-
-            <?php
-            showRelatedProducts();
-            ?>
-
-        </div><!-- col end -->
+    <div class="row p-3 mb-4 mt-4" style="width: 100%;">
+        <h5>You might also like</h5>
 
 
+        <?php
+        // calling function
+        $html = get_products();
+        echo $html;
+
+        ?>
+
+    </div><!-- col end -->
 
 
 
 
-        <div class="bg-light d-flex justify-content-between footer">
-            <P class="text-center"> &copy;2024 SoleStride, Inc. All rights Reserved</P>
-            <a href="">
-                <p>Help</p>
-            </a>
-        </div>
+    <div class="bg-light d-flex justify-content-between footer">
+        <P class="text-center"> &copy;2024 SoleStride, Inc. All rights Reserved</P>
+        <a href="">
+            <p>Help</p>
+        </a>
+    </div>
 
     </div>
 
@@ -236,6 +256,57 @@ include("functions/common_functions.php");
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
+
+    <script>
+    // Function to update item price and calculate subtotal
+    function updateItem(quantity, price, productId) {
+        // Calculate total price
+        var totalPrice = quantity * price;
+
+        // Update the total price displayed for the item
+        document.getElementById('price_' + productId).textContent = '$' + totalPrice.toFixed(2);
+
+        // Update the subtotal
+        calculateSubtotal();
+    }
+
+    // Function to calculate subtotal
+    function calculateSubtotal() {
+        var subtotal = 0;
+        // Iterate over all cards to sum up the prices
+        var cards = document.getElementsByClassName('card');
+        for (var i = 0; i < cards.length; i++) {
+            var card = cards[i];
+            var priceElement = card.querySelector('.card-price');
+            if (priceElement) {
+                // Extract the price from the text content
+                var priceText = priceElement.textContent;
+                var price = parseFloat(priceText.replace('$', ''));
+                subtotal += price;
+            }
+        }
+
+        // Calculate VAT (3.4% of the subtotal)
+        var vat = subtotal * 0.034;
+
+        // Calculate total price
+        var totalPrice = subtotal + vat;
+
+        // Update the subtotal, VAT, and total price displayed
+        document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+        document.getElementById('vat').textContent = '$' + vat.toFixed(2);
+        document.getElementById('total_price').textContent = '$' + totalPrice.toFixed(2);
+    }
+
+    // Calculate subtotal when the page loads
+    window.onload = calculateSubtotal;
+    </script>
+
+
+
+
+
+
 </body>
 
 </html>
