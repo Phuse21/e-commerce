@@ -22,74 +22,74 @@ include("functions/common_functions.php");
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
 
 
 
-    .logo {
-        width: 4%;
-        height: 4%;
-    }
+        .logo {
+            width: 4%;
+            height: 4%;
+        }
 
-    .card a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-
-    .card .nav-link {
-        position: relative;
-    }
+        .card a {
+            color: inherit;
+            text-decoration: none;
+        }
 
 
-    .image-container {
-        position: relative;
-        overflow: hidden;
-
-    }
-
-    .image-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .image-container:hover::before {
-        opacity: 1;
-    }
-
-    .image-container-img {
-        padding: 10px;
-        transition: transform 0.3s ease;
-        width: 100%;
-        height: 100%;
-    }
-
-    .image-container:hover .image-container-img {
-        transform: scale(1.1);
-    }
+        .card .nav-link {
+            position: relative;
+        }
 
 
-    .card-img-top {
-        height: 400px;
-        /* Set the desired height for the images */
-        object-fit: cover;
-    }
+        .image-container {
+            position: relative;
+            overflow: hidden;
 
-    .card-price {
-        margin-left: auto;
-    }
+        }
+
+        .image-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-container:hover::before {
+            opacity: 1;
+        }
+
+        .image-container-img {
+            padding: 10px;
+            transition: transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-container:hover .image-container-img {
+            transform: scale(1.1);
+        }
+
+
+        .card-img-top {
+            height: 400px;
+            /* Set the desired height for the images */
+            object-fit: cover;
+        }
+
+        .card-price {
+            margin-left: auto;
+        }
     </style>
 </head>
 
@@ -209,21 +209,11 @@ include("functions/common_functions.php");
                         <div>Total Price: <span id="total_price"></span></div>
                     </h5>
                 </div>
-                <button type='button' id='checkoutButton' class='btn btn-primary btn-lg mt-2 mb-2 text-center'
-                    style='width: 70%; background-color: black; border-radius: 30px; border: 1px solid black;'>
-                    Checkout
-                </button>
+                <a href='checkout.php'> <button type='button' class='btn btn-primary btn-lg mt-2 mb-2 text-center'
+                        style='width: 70%; background-color:black; border-radius: 30px; border: 1px solid black;'>
+                        Checkout
 
-                <!-- Hidden popup -->
-                <div id="popup" class="popup" style="display: none;">
-                    <div class="popup-content">
-                        <p>Would you like to login or checkout as a guest?</p>
-                        <button type="button" class="btn btn-primary btn-sm mb-2" onclick="login()">Login</button>
-                        <button type="button" class="btn btn-primary btn-sm mb-2 " onclick="checkoutAsGuest()">Checkout
-                            as Guest</button>
-
-                    </div>
-                </div>
+                    </button> </a>
 
                 <a href=''> <button type='button' class='btn btn-primary btn-lg mt-2 mb-2 text-dark' style='width: 70%; background-color:white; border-radius: 30px;
                             border: 1px solid black; text'>
@@ -265,89 +255,51 @@ include("functions/common_functions.php");
     <!-- Bootstrap js link -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+        </script>
 
     <script>
-    var checkoutButton = document.getElementById('checkoutButton');
-    var popup = document.getElementById('popup');
+        // Function to update item price and calculate subtotal
+        function updateItem(quantity, price, productId) {
+            // Calculate total price
+            var totalPrice = quantity * price;
 
-    // Function to display the popup when clicking the button
-    checkoutButton.addEventListener('click', function() {
-        popup.style.display = 'block';
-    });
+            // Update the total price displayed for the item
+            document.getElementById('price_' + productId).textContent = '$' + totalPrice.toFixed(2);
 
-    // Function to close the popup when mouse leaves the button or the popup
-    popup.addEventListener('mouseleave', function() {
-        popup.style.display = 'none';
-    });
-
-    // Add event listener to close popup when clicking outside of it
-    document.addEventListener('click', function(event) {
-        var isClickInsidePopup = popup.contains(event.target);
-        var isClickOnCheckoutButton = event.target === checkoutButton;
-
-        if (!isClickInsidePopup && !isClickOnCheckoutButton) {
-            popup.style.display = 'none';
+            // Update the subtotal
+            calculateSubtotal();
         }
-    });
 
-    // Function to handle login option
-    function login() {
-        // Redirect to login page or handle login functionality here
-        // For example:
-        window.location.href = './users_area/login.php';
-    }
-
-    // Function to handle checkout as guest option
-    function checkoutAsGuest() {
-        // Redirect to checkout page for guest checkout or handle guest checkout functionality here
-        // For example:
-        window.location.href = 'checkout.php';
-    }
-
-
-    // Function to update item price and calculate subtotal
-    function updateItem(quantity, price, productId) {
-        // Calculate total price
-        var totalPrice = quantity * price;
-
-        // Update the total price displayed for the item
-        document.getElementById('price_' + productId).textContent = '$' + totalPrice.toFixed(2);
-
-        // Update the subtotal
-        calculateSubtotal();
-    }
-
-    // Function to calculate subtotal
-    function calculateSubtotal() {
-        var subtotal = 0;
-        // Iterate over all cards to sum up the prices
-        var cards = document.getElementsByClassName('card');
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            var priceElement = card.querySelector('.card-price');
-            if (priceElement) {
-                // Extract the price from the text content
-                var priceText = priceElement.textContent;
-                var price = parseFloat(priceText.replace('$', ''));
-                subtotal += price;
+        // Function to calculate subtotal
+        function calculateSubtotal() {
+            var subtotal = 0;
+            // Iterate over all cards to sum up the prices
+            var cards = document.getElementsByClassName('card');
+            for (var i = 0; i < cards.length; i++) {
+                var card = cards[i];
+                var priceElement = card.querySelector('.card-price');
+                if (priceElement) {
+                    // Extract the price from the text content
+                    var priceText = priceElement.textContent;
+                    var price = parseFloat(priceText.replace('$', ''));
+                    subtotal += price;
+                }
             }
+
+            // Calculate VAT (3.4% of the subtotal)
+            var vat = subtotal * 0.034;
+
+            // Calculate total price
+            var totalPrice = subtotal + vat;
+
+            // Update the subtotal, VAT, and total price displayed
+            document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('vat').textContent = '$' + vat.toFixed(2);
+            document.getElementById('total_price').textContent = '$' + totalPrice.toFixed(2);
         }
 
-        // Calculate VAT (3.4% of the subtotal)
-        var vat = subtotal * 0.034;
-
-        // Calculate total price
-        var totalPrice = subtotal + vat;
-
-        // Update the subtotal, VAT, and total price displayed
-        document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
-        document.getElementById('vat').textContent = '$' + vat.toFixed(2);
-        document.getElementById('total_price').textContent = '$' + totalPrice.toFixed(2);
-    }
-
-    // Calculate subtotal when the page loads
-    window.onload = calculateSubtotal;
+        // Calculate subtotal when the page loads
+        window.onload = calculateSubtotal;
     </script>
 
 

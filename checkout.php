@@ -1,6 +1,6 @@
 <?php
 include("includes/connectionPage.php");
-include("functions/common_functions.php");
+session_start();
 
 
 ?>
@@ -83,7 +83,7 @@ include("functions/common_functions.php");
 
     .card-img-top {
         height: 400px;
-        /* Set the desired height for the images */
+
         object-fit: cover;
     }
 
@@ -148,105 +148,78 @@ include("functions/common_functions.php");
             <p class="text-center">Get Unlimited Next Day Delivery for a Whole Year for just $6.98</p>
         </div>
 
-        <?php
-
-        $productId = isset($_GET['add_to_cart']) ? $_GET['add_to_cart'] : null;
-
-        //calling cart function
-        addToCart($productId);
-        ?>
 
         <div class="row mt-2 mb-2">
 
 
-            <div class="col-md-8 p-3 ">
-                <div class="card w-60 mx-4 mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title text-danger">Members get free shipping on orders $50+</h5>
-                        <p class="card-text">Become a SoleStride Member for fast free shipping on orders $50+ <a
-                                href="">Join us</a> or <a href="">Sign-in</a> .</p>
+            <div class="col-md-12 p-3 ">
 
+                <div class="mx-4">
+                    <h5>Checkout</h5>
+                </div>
+
+                <div class="row">
+                    <div class="col-8">
+                        <?php
+                    if (!isset($_SESSION['user_name'])) {
+                        include('users_area\login.php');
+                    } else {
+                        include('payment.php');
+                    }
+
+                    ?>
+                    </div>
+
+                    <div class="col-md-4 p-3">
+                        <div>
+                            <h4>
+                                Summary
+                            </h4>
+                        </div>
+
+                        <div class="mt-4 justify-content-between">
+                            <h6>
+                                <div>Subtotal: <span id="subtotal"></div>
+                            </h6>
+                        </div>
+
+                        <div class="mt-4 justify-content-between">
+                            <h6>
+                                <div>VAT: <span id="vat"></span></div>
+                            </h6>
+                        </div>
+
+
+                        <div class="mt-4 justify-content-between">
+                            <h5>
+                                <div>Total Price: <span id="total_price"></span></div>
+                            </h5>
+                        </div>
+                        <a href='checkout.php'> <button type='button'
+                                class='btn btn-primary btn-lg mt-2 mb-2 text-center'
+                                style='width: 70%; background-color:black; border-radius: 30px; border: 1px solid black;'>
+                                Checkout
+
+                            </button> </a>
+
+                        <a href=''> <button type='button' class='btn btn-primary btn-lg mt-2 mb-2 text-dark' style='width: 70%; background-color:white; border-radius: 30px;
+                            border: 1px solid black; text'>
+                                Continue Shopping
+
+                            </button></a>
                     </div>
                 </div>
-                <div class="mx-4">
-                    <h5>Bag</h5>
-                </div>
-
-                <?php
-
-                $html = display_cart_items();
-                echo $html;
-
-                ?>
-
 
             </div>
             <!--col end-->
 
 
-            <div class="col-md-4 p-3">
-                <div>
-                    <h4>
-                        Summary
-                    </h4>
-                </div>
 
-                <div class="mt-4 justify-content-between">
-                    <h6>
-                        <div>Subtotal: <span id="subtotal"></div>
-                    </h6>
-                </div>
-
-                <div class="mt-4 justify-content-between">
-                    <h6>
-                        <div>VAT: <span id="vat"></span></div>
-                    </h6>
-                </div>
-
-
-                <div class="mt-4 justify-content-between">
-                    <h5>
-                        <div>Total Price: <span id="total_price"></span></div>
-                    </h5>
-                </div>
-                <button type='button' id='checkoutButton' class='btn btn-primary btn-lg mt-2 mb-2 text-center'
-                    style='width: 70%; background-color: black; border-radius: 30px; border: 1px solid black;'>
-                    Checkout
-                </button>
-
-                <!-- Hidden popup -->
-                <div id="popup" class="popup" style="display: none;">
-                    <div class="popup-content">
-                        <p>Would you like to login or checkout as a guest?</p>
-                        <button type="button" class="btn btn-primary btn-sm mb-2" onclick="login()">Login</button>
-                        <button type="button" class="btn btn-primary btn-sm mb-2 " onclick="checkoutAsGuest()">Checkout
-                            as Guest</button>
-
-                    </div>
-                </div>
-
-                <a href=''> <button type='button' class='btn btn-primary btn-lg mt-2 mb-2 text-dark' style='width: 70%; background-color:white; border-radius: 30px;
-                            border: 1px solid black; text'>
-                        Continue Shopping
-
-                    </button></a>
-            </div>
         </div>
 
     </div>
 
-    <div class="row p-3 mb-4 mt-4" style="width: 100%;">
-        <h5>You might also like</h5>
 
-
-        <?php
-        // calling function
-        $html = get_products();
-        echo $html;
-
-        ?>
-
-    </div><!-- col end -->
 
 
 
@@ -267,45 +240,8 @@ include("functions/common_functions.php");
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
 
+
     <script>
-    var checkoutButton = document.getElementById('checkoutButton');
-    var popup = document.getElementById('popup');
-
-    // Function to display the popup when clicking the button
-    checkoutButton.addEventListener('click', function() {
-        popup.style.display = 'block';
-    });
-
-    // Function to close the popup when mouse leaves the button or the popup
-    popup.addEventListener('mouseleave', function() {
-        popup.style.display = 'none';
-    });
-
-    // Add event listener to close popup when clicking outside of it
-    document.addEventListener('click', function(event) {
-        var isClickInsidePopup = popup.contains(event.target);
-        var isClickOnCheckoutButton = event.target === checkoutButton;
-
-        if (!isClickInsidePopup && !isClickOnCheckoutButton) {
-            popup.style.display = 'none';
-        }
-    });
-
-    // Function to handle login option
-    function login() {
-        // Redirect to login page or handle login functionality here
-        // For example:
-        window.location.href = './users_area/login.php';
-    }
-
-    // Function to handle checkout as guest option
-    function checkoutAsGuest() {
-        // Redirect to checkout page for guest checkout or handle guest checkout functionality here
-        // For example:
-        window.location.href = 'checkout.php';
-    }
-
-
     // Function to update item price and calculate subtotal
     function updateItem(quantity, price, productId) {
         // Calculate total price
@@ -349,7 +285,6 @@ include("functions/common_functions.php");
     // Calculate subtotal when the page loads
     window.onload = calculateSubtotal;
     </script>
-
 
 
 
