@@ -20,6 +20,75 @@ include("functions/common_functions.php");
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap js link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <script>
+    // Function to save shipping details in the session
+    function saveShippingDetails() {
+        // Retrieve form inputs
+        var firstName = document.getElementById('firstName').value;
+        var lastName = document.getElementById('lastName').value;
+        var email = document.getElementById('email').value;
+        var address = document.getElementById('address').value;
+        var address2 = document.getElementById('address2').value;
+        var city = document.getElementById('city').value;
+        var state = document.getElementById('state').value;
+        var zip = document.getElementById('zip').value;
+
+        // Create an XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+
+        // Configure the request
+        xhr.open('POST', 'shipping_details.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        // Define the data to be sent in the request body
+        var data = 'firstName=' + encodeURIComponent(firstName) +
+            '&lastName=' + encodeURIComponent(lastName) +
+            '&address=' + encodeURIComponent(address) +
+            '&address2=' + encodeURIComponent(address2) +
+            '&city=' + encodeURIComponent(city) +
+            '&state=' + encodeURIComponent(state) +
+            '&zip=' + encodeURIComponent(zip);
+
+        // Set up event listener to process response
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('Shipping details saved successfully.');
+                // Redirect to the payment page or perform any other action
+                window.location.href =
+                    'payment.php';
+            } else {
+                console.log('Error saving shipping details.');
+            }
+        };
+
+        // Send the request
+        console.log(data);
+        xhr.send(data);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find the "Save & Continue" button by its ID
+        var saveAndContinueButton = document.getElementById('saveAndContinueButton');
+
+        // Check if the button element exists
+        if (saveAndContinueButton) {
+            // Attach a click event listener to the button
+            saveAndContinueButton.addEventListener('click', function(event) {
+                // Prevent the default form submission behavior
+                event.preventDefault();
+
+                // Call the function to save shipping details
+                saveShippingDetails();
+            });
+        }
+    });
+    </script>
+
+
 
     <style>
     * {
@@ -152,30 +221,82 @@ include("functions/common_functions.php");
             <p class="text-center">Get Unlimited Next Day Delivery for a Whole Year for just $6.98</p>
         </div>
 
-        <?php
-
-        $productId = isset($_GET['add_to_cart']) ? $_GET['add_to_cart'] : null;
-
-        //calling cart function
-        addToCart($productId);
-        ?>
+        <div class="text-center mb-2 mt-2">
+            <h4>Checkout</h4>
+        </div>
 
         <div class="row mt-2 mb-2">
 
 
             <div class="col-md-8 p-3 ">
-                <div class="card w-60 mx-4 mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title text-danger">Members get free shipping on orders $50+</h5>
-                        <p class="card-text">Become a SoleStride Member for fast free shipping on orders $50+ <a
-                                href="">Join us</a> or <a href="">Sign-in</a> .</p>
 
-                    </div>
-                </div>
                 <div class="mx-4">
+                    <div>
+                        <h5>Shipping Details</h5>
+                    </div>
+
+                    <form class="row g-3" id="shippingForm">
+                        <div class="col-md-6">
+                            <label for="firstName" class="form-label">First Name*</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastName" class="form-label">Last Name*</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName">
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Email*</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="col-12">
+                            <label for="address" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="address" name="address"
+                                placeholder="5 Dingo St">
+                        </div>
+                        <div class="col-12">
+                            <label for="address2" class="form-label">Address 2</label>
+                            <input type="text" class="form-control" id="address2" name="address2"
+                                placeholder="Apartment, studio, or floor">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City</label>
+                            <input type="text" class="form-control" id="city" name="city">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="state" class="form-label">State</label>
+                            <select id="state" class="form-select" name="state">
+                                <option selected>Choose...</option>
+                                <option>Ashanti</option>
+                                <option>Brong Ahafo</option>
+                                <option>Greater Accra</option>
+                                <option>Central</option>
+                                <option>Eastern</option>
+                                <option>Northern</option>
+                                <option>Upper East</option>
+                                <option>Upper West</option>
+                                <option>Volta</option>
+                                <option>Western</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="zip" class="form-label">Zip</label>
+                            <input type="text" class="form-control" id="zip" name="zip">
+                        </div>
+
+                        <div class="col-4 mt-3">
+                            <button class="btn btn-primary btn-sm mt-2 mb-2 text-center" style="padding: 10px;
+    width: 70%; background-color: black; border-radius: 30px; border: 1px solid black
+            cursor: pointer;" onmouseover="this.style.backgroundColor='white'; this.style.color='#551a8b';this.style.border= '2px solid #551a8b'; this.style.fontWeight='bold';"
+                                onmouseout="this.style.backgroundColor='black'; this.style.border= 'none'; this.style.color='white'; this.style.fontWeight='normal';"
+                                onclick="saveShippingDetails()" id='saveAndContinueButton'>
+                                Save & Continue
+                            </button>
+                        </div>
+                    </form>
+
+
 
                 </div>
-
 
 
 
@@ -185,9 +306,9 @@ include("functions/common_functions.php");
 
             <div class="col-md-4 p-3">
                 <div>
-                    <h4>
-                        Summary
-                    </h4>
+                    <h5>
+                        In Your Bag
+                    </h5>
                 </div>
 
                 <div>
@@ -259,13 +380,6 @@ include("functions/common_functions.php");
     </div>
 
     </div>
-
-
-
-    <!-- Bootstrap js link -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
 
 </body>
 

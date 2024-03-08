@@ -22,74 +22,74 @@ include("functions/common_functions.php");
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
 
 
 
-    .logo {
-        width: 4%;
-        height: 4%;
-    }
+        .logo {
+            width: 4%;
+            height: 4%;
+        }
 
-    .card a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-
-    .card .nav-link {
-        position: relative;
-    }
+        .card a {
+            color: inherit;
+            text-decoration: none;
+        }
 
 
-    .image-container {
-        position: relative;
-        overflow: hidden;
-
-    }
-
-    .image-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .image-container:hover::before {
-        opacity: 1;
-    }
-
-    .image-container-img {
-        padding: 10px;
-        transition: transform 0.3s ease;
-        width: 100%;
-        height: 100%;
-    }
-
-    .image-container:hover .image-container-img {
-        transform: scale(1.1);
-    }
+        .card .nav-link {
+            position: relative;
+        }
 
 
-    .card-img-top {
-        height: 400px;
-        /* Set the desired height for the images */
-        object-fit: cover;
-    }
+        .image-container {
+            position: relative;
+            overflow: hidden;
 
-    .card-price {
-        margin-left: auto;
-    }
+        }
+
+        .image-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-container:hover::before {
+            opacity: 1;
+        }
+
+        .image-container-img {
+            padding: 10px;
+            transition: transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-container:hover .image-container-img {
+            transform: scale(1.1);
+        }
+
+
+        .card-img-top {
+            height: 400px;
+            /* Set the desired height for the images */
+            object-fit: cover;
+        }
+
+        .card-price {
+            margin-left: auto;
+        }
     </style>
 </head>
 
@@ -258,124 +258,124 @@ include("functions/common_functions.php");
     <!-- Bootstrap js link -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
+        </script>
 
     <script>
-    var checkoutButton = document.getElementById('checkoutButton');
-    var popup = document.getElementById('popup');
+        var checkoutButton = document.getElementById('checkoutButton');
+        var popup = document.getElementById('popup');
 
-    // Function to display the popup when clicking the button
-    checkoutButton.addEventListener('click', function() {
-        popup.style.display = 'block';
-    });
+        // Function to display the popup when clicking the button
+        checkoutButton.addEventListener('click', function () {
+            popup.style.display = 'block';
+        });
 
-    // Function to close the popup when mouse leaves the button or the popup
-    popup.addEventListener('mouseleave', function() {
-        popup.style.display = 'none';
-    });
-
-    // Add event listener to close popup when clicking outside of it
-    document.addEventListener('click', function(event) {
-        var isClickInsidePopup = popup.contains(event.target);
-        var isClickOnCheckoutButton = event.target === checkoutButton;
-
-        if (!isClickInsidePopup && !isClickOnCheckoutButton) {
+        // Function to close the popup when mouse leaves the button or the popup
+        popup.addEventListener('mouseleave', function () {
             popup.style.display = 'none';
-        }
-    });
+        });
 
-    // Function to handle login option
-    function login() {
-        // Redirect to login page or handle login functionality here
-        // For example:
-        window.location.href = './users_area/login.php';
-    }
+        // Add event listener to close popup when clicking outside of it
+        document.addEventListener('click', function (event) {
+            var isClickInsidePopup = popup.contains(event.target);
+            var isClickOnCheckoutButton = event.target === checkoutButton;
 
-    // Function to handle checkout as guest option
-    function checkoutAsGuest() {
-        // Redirect to checkout page for guest checkout or handle guest checkout functionality here
-        // For example:
-        window.location.href = 'checkout.php';
-    }
-
-
-    // Function to update item price and calculate subtotal
-    function updateItem(quantity, price, productId) {
-        // Calculate total price for the item
-        var totalPrice = quantity * price;
-
-        // Update the total price displayed for the item
-        document.getElementById('price_' + productId).textContent = '$' + totalPrice.toFixed(2);
-
-        // Update the subtotal including the pre-calculated total price
-        calculateSubtotal();
-    }
-
-
-
-    function calculateSubtotal(productId) {
-        var subtotal = 0;
-        var vat = 0;
-        var totalPrice = 0;
-
-
-        var cards = document.getElementsByClassName('card');
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            var priceElement = card.querySelector('.card-price');
-            if (priceElement) {
-                var priceText = priceElement.textContent;
-                var price = parseFloat(priceText.replace('$', ''));
-                subtotal += price;
+            if (!isClickInsidePopup && !isClickOnCheckoutButton) {
+                popup.style.display = 'none';
             }
+        });
+
+        // Function to handle login option
+        function login() {
+            // Redirect to login page or handle login functionality here
+            // For example:
+            window.location.href = './users_area/login.php';
         }
 
-        vat = subtotal * 0.034;
+        // Function to handle checkout as guest option
+        function checkoutAsGuest() {
+            // Redirect to checkout page for guest checkout or handle guest checkout functionality here
+            // For example:
+            window.location.href = 'checkout.php';
+        }
 
-        totalPrice = subtotal + vat
+
+        // Function to update item price and calculate subtotal
+        function updateItem(quantity, price, productId) {
+            // Calculate total price for the item
+            var totalPrice = quantity * price;
+
+            // Update the total price displayed for the item
+            document.getElementById('price_' + productId).textContent = '$' + totalPrice.toFixed(2);
+
+            // Update the subtotal including the pre-calculated total price
+            calculateSubtotal();
+        }
 
 
-        // Create an XMLHttpRequest object
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'store_prices.php');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('Prices stored successfully in the session.');
 
-                // Parse the JSON response text
-                var responseJson = JSON.parse(xhr.responseText);
+        function calculateSubtotal(productId) {
+            var subtotal = 0;
+            var vat = 0;
+            var totalPrice = 0;
 
-                // Extract prices from the parsed JSON object
-                var loggedSubtotal = parseFloat(responseJson.subtotal);
-                var loggedVat = parseFloat(responseJson.vat);
-                var loggedTotalPrice = parseFloat(responseJson.totalPrice);
 
-                // Update the subtotal, vat, and total price displayed on the webpage
-                document.getElementById('logged_subtotal').textContent = 'Subtotal: $' + loggedSubtotal.toFixed(2);
-                document.getElementById('logged_vat').textContent = 'VAT: $' + loggedVat.toFixed(2);
-                document.getElementById('logged_total_price').textContent = 'Total Price: $' + loggedTotalPrice
-                    .toFixed(2);
-
-                // Log the prices
-                console.log('Logged Subtotal:', loggedSubtotal);
-                console.log('Logged VAT:', loggedVat);
-                console.log('Logged Total Price:', loggedTotalPrice);
-            } else {
-                console.log('Error storing prices in the session.');
+            var cards = document.getElementsByClassName('card');
+            for (var i = 0; i < cards.length; i++) {
+                var card = cards[i];
+                var priceElement = card.querySelector('.card-price');
+                if (priceElement) {
+                    var priceText = priceElement.textContent;
+                    var price = parseFloat(priceText.replace('$', ''));
+                    subtotal += price;
+                }
             }
+
+            vat = subtotal * 0.034;
+
+            totalPrice = subtotal + vat
+
+
+            // Create an XMLHttpRequest object
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', 'store_prices.php');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    console.log('Prices stored successfully in the session.');
+
+                    // Parse the JSON response text
+                    var responseJson = JSON.parse(xhr.responseText);
+
+                    // Extract prices from the parsed JSON object
+                    var loggedSubtotal = parseFloat(responseJson.subtotal);
+                    var loggedVat = parseFloat(responseJson.vat);
+                    var loggedTotalPrice = parseFloat(responseJson.totalPrice);
+
+                    // Update the subtotal, vat, and total price displayed on the webpage
+                    document.getElementById('logged_subtotal').textContent = 'Subtotal: $' + loggedSubtotal.toFixed(2);
+                    document.getElementById('logged_vat').textContent = 'VAT: $' + loggedVat.toFixed(2);
+                    document.getElementById('logged_total_price').textContent = 'Total Price: $' + loggedTotalPrice
+                        .toFixed(2);
+
+                    // Log the prices
+                    console.log('Logged Subtotal:', loggedSubtotal);
+                    console.log('Logged VAT:', loggedVat);
+                    console.log('Logged Total Price:', loggedTotalPrice);
+                } else {
+                    console.log('Error storing prices in the session.');
+                }
+            };
+
+            xhr.send('subtotal=' + encodeURIComponent(subtotal) + '&vat=' + encodeURIComponent(vat) + '&totalPrice=' +
+                encodeURIComponent(totalPrice));
+        }
+
+
+
+        // Assign a function to be called when the window loads
+        window.onload = function () {
+            calculateSubtotal();
         };
-
-        xhr.send('subtotal=' + encodeURIComponent(subtotal) + '&vat=' + encodeURIComponent(vat) + '&totalPrice=' +
-            encodeURIComponent(totalPrice));
-    }
-
-
-
-    // Assign a function to be called when the window loads
-    window.onload = function() {
-        calculateSubtotal();
-    };
     </script>
 
 
