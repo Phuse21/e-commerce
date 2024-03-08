@@ -1,6 +1,6 @@
 <?php
 include("includes/connectionPage.php");
-session_start();
+include("functions/common_functions.php");
 
 
 ?>
@@ -83,12 +83,16 @@ session_start();
 
     .card-img-top {
         height: 400px;
-
+        /* Set the desired height for the images */
         object-fit: cover;
     }
 
     .card-price {
         margin-left: auto;
+    }
+
+    body {
+        overflow-x: hidden;
     }
     </style>
 </head>
@@ -148,73 +152,96 @@ session_start();
             <p class="text-center">Get Unlimited Next Day Delivery for a Whole Year for just $6.98</p>
         </div>
 
+        <?php
+
+        $productId = isset($_GET['add_to_cart']) ? $_GET['add_to_cart'] : null;
+
+        //calling cart function
+        addToCart($productId);
+        ?>
 
         <div class="row mt-2 mb-2">
 
 
-            <div class="col-md-12 p-3 ">
+            <div class="col-md-8 p-3 ">
+                <div class="card w-60 mx-4 mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">Members get free shipping on orders $50+</h5>
+                        <p class="card-text">Become a SoleStride Member for fast free shipping on orders $50+ <a
+                                href="">Join us</a> or <a href="">Sign-in</a> .</p>
 
+                    </div>
+                </div>
                 <div class="mx-4">
-                    <h5>Checkout</h5>
+
                 </div>
 
-                <div class="row">
-                    <div class="col-8">
-                        <?php
-                    if (!isset($_SESSION['user_name'])) {
-                        include('users_area\login.php');
-                    } else {
-                        include('payment.php');
-                    }
-
-                    ?>
-                    </div>
-
-                    <div class="col-md-4 p-3">
-                        <div>
-                            <h4>
-                                Summary
-                            </h4>
-                        </div>
-
-                        <div class="mt-4 justify-content-between">
-                            <h6>
-                                <div>Subtotal: <span id="subtotal"></div>
-                            </h6>
-                        </div>
-
-                        <div class="mt-4 justify-content-between">
-                            <h6>
-                                <div>VAT: <span id="vat"></span></div>
-                            </h6>
-                        </div>
 
 
-                        <div class="mt-4 justify-content-between">
-                            <h5>
-                                <div>Total Price: <span id="total_price"></span></div>
-                            </h5>
-                        </div>
-                        <a href='checkout.php'> <button type='button'
-                                class='btn btn-primary btn-lg mt-2 mb-2 text-center'
-                                style='width: 70%; background-color:black; border-radius: 30px; border: 1px solid black;'>
-                                Checkout
-
-                            </button> </a>
-
-                        <a href=''> <button type='button' class='btn btn-primary btn-lg mt-2 mb-2 text-dark' style='width: 70%; background-color:white; border-radius: 30px;
-                            border: 1px solid black; text'>
-                                Continue Shopping
-
-                            </button></a>
-                    </div>
-                </div>
 
             </div>
             <!--col end-->
 
 
+            <div class="col-md-4 p-3">
+                <div>
+                    <h4>
+                        Summary
+                    </h4>
+                </div>
 
+                <div>
+                    <h6>
+                        <?php
+                        //check if subtotal is stored in session
+                        if (isset($_SESSION['subtotal'])) {
+                            $subtotal = $_SESSION['subtotal'];
+                            //display subtotal
+                            echo "Subtotal: $" . number_format($subtotal, 2);
+                        } else //if subtotal is not stored in session
+                        {
+                            echo "Subtotal: $0.00";
+                        }
+                        ?>
+                    </h6>
+
+                </div>
+
+                <div>
+                    <h6>
+                        <?php
+                        //check if VAT is stored in session
+                        if (isset($_SESSION['vat'])) {
+                            $vat = $_SESSION['vat'];
+                            //display VAT
+                            echo "VAT: $" . number_format($vat, 2);
+                        } else //if VAT is not stored in session
+                        {
+                            echo "VAT: $0.00";
+                        }
+                        ?>
+                    </h6>
+
+                </div>
+
+                <div>
+                    <h6>
+                        <?php
+                        //check if Total Price is stored in session
+                        if (isset($_SESSION['total_price'])) {
+                            $total_price = $_SESSION['total_price'];
+                            //display Total Price
+                            echo "Total Price: $" . number_format($total_price, 2);
+                        } else //if Total Price is not stored in session
+                        {
+                            echo "Total Price: $0.00";
+                        }
+
+                        ?>
+                    </h6>
+
+                </div>
+            </div>
         </div>
 
     </div>
@@ -239,56 +266,6 @@ session_start();
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
-
-
-    <script>
-    // Function to update item price and calculate subtotal
-    function updateItem(quantity, price, productId) {
-        // Calculate total price
-        var totalPrice = quantity * price;
-
-        // Update the total price displayed for the item
-        document.getElementById('price_' + productId).textContent = '$' + totalPrice.toFixed(2);
-
-        // Update the subtotal
-        calculateSubtotal();
-    }
-
-    // Function to calculate subtotal
-    function calculateSubtotal() {
-        var subtotal = 0;
-        // Iterate over all cards to sum up the prices
-        var cards = document.getElementsByClassName('card');
-        for (var i = 0; i < cards.length; i++) {
-            var card = cards[i];
-            var priceElement = card.querySelector('.card-price');
-            if (priceElement) {
-                // Extract the price from the text content
-                var priceText = priceElement.textContent;
-                var price = parseFloat(priceText.replace('$', ''));
-                subtotal += price;
-            }
-        }
-
-        // Calculate VAT (3.4% of the subtotal)
-        var vat = subtotal * 0.034;
-
-        // Calculate total price
-        var totalPrice = subtotal + vat;
-
-        // Update the subtotal, VAT, and total price displayed
-        document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
-        document.getElementById('vat').textContent = '$' + vat.toFixed(2);
-        document.getElementById('total_price').textContent = '$' + totalPrice.toFixed(2);
-    }
-
-    // Calculate subtotal when the page loads
-    window.onload = calculateSubtotal;
-    </script>
-
-
-
-
 
 </body>
 

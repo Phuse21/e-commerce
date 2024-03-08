@@ -78,13 +78,14 @@ function get_products()
             <h5 class='card-title'> $product_title</h5>
             <p class='card-text'>$product_description</p>
             <h6 class='card-text'>$$product_price</h6>
+            </a>
             <div class='row'>
                 <div class='col-md-6'>
-                    <a  href='index.php?add_to_cart=$product_id' ><button type='button' class='btn btn-primary btn-sm mt-2 mb-2'
+                    <button type='button' onclick='addToCartAndRedirect($product_id)' class='btn btn-primary btn-sm mt-2 mb-2'
                     style='width: 100%; background-color:black; border-radius: 30px; border: 1px solid black;'>
                     <span style='margin-right: 10px;'>Add to Bag</span>
                     <i class='fa fa-shopping-bag'></i>
-                </button></a>
+                </button>
                 </div>
                 <div class='col-md-6'>
                     <a class='nav-link favorite' href='#'><button type='button' class='btn btn-primary btn-sm mt-2 mb-2' style='width: 100%; background-color:white; border-radius: 30px;
@@ -96,7 +97,7 @@ function get_products()
             </div>
         </div>
     </div>
-</a>
+
 </div>";
             }
 
@@ -717,7 +718,7 @@ function display_cart_items()
                                         <span class='card-price' id='price_$product_id'>$$product_price</span>
                                     </div>
                                     <p class='card-text'>$product_description</p>
-                                    <label for='quantity'>Quantity:</label>
+                                    <label for='quantity_$product_id'>Quantity:</label>
                                     <select class='form-select form-select-sm w-25' aria-label='' name='quantity_$product_id' id='quantity_$product_id'
                                      onchange='updateItem(this.value, $product_price, $product_id)'>
                                         <option value='1'>1</option>

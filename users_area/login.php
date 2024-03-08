@@ -62,7 +62,7 @@ if (isset($_GET['successMessage'])) {
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
@@ -190,13 +190,13 @@ if (isset($_GET['successMessage'])) {
                             <p class="error email-error">
                                 <?php echo $email_error; ?>
                             </p>
-                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                            <label for="email" class="form-label">Email address</label>
                             <input id="email" type="text" name="email" class="form-control"
                                 value="<?php echo $email; ?>" autocomplete="off" required>
                             <p class="error password-error">
                                 <?php echo $password_error; ?>
                             </p>
-                            <label for="exampleFormControlInput1" class="form-label">Password</label>
+                            <label for="email" class="form-label">Password</label>
                             <input type="password" id="password" name="password" class="form-control"
                                 value="<?php echo $password; ?>" required> <br>
                             <button class="btn btn-primary btn-sm mt-2 mb-2 text-center" style="padding: 10px;

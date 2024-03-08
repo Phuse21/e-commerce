@@ -94,6 +94,8 @@ include("functions/common_functions.php");
 </head>
 
 <body>
+
+
     <!-- navbar -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-info-subtle">
@@ -191,24 +193,15 @@ include("functions/common_functions.php");
                     </h4>
                 </div>
 
-                <div class="mt-4 justify-content-between">
-                    <h6>
-                        <div>Subtotal: <span id="subtotal"></div>
-                    </h6>
-                </div>
-
-                <div class="mt-4 justify-content-between">
-                    <h6>
-                        <div>VAT: <span id="vat"></span></div>
-                    </h6>
-                </div>
-
-
-                <div class="mt-4 justify-content-between">
-                    <h5>
-                        <div>Total Price: <span id="total_price"></span></div>
-                    </h5>
-                </div>
+                <h6>
+                    <div id="logged_subtotal"></div>
+                </h6>
+                <h6>
+                    <div id="logged_vat"></div>
+                </h6>
+                <h6>
+                    <div id="logged_total_price"></div>
+                </h6>
                 <button type='button' id='checkoutButton' class='btn btn-primary btn-lg mt-2 mb-2 text-center'
                     style='width: 70%; background-color: black; border-radius: 30px; border: 1px solid black;'>
                     Checkout
@@ -308,46 +301,81 @@ include("functions/common_functions.php");
 
     // Function to update item price and calculate subtotal
     function updateItem(quantity, price, productId) {
-        // Calculate total price
+        // Calculate total price for the item
         var totalPrice = quantity * price;
 
         // Update the total price displayed for the item
         document.getElementById('price_' + productId).textContent = '$' + totalPrice.toFixed(2);
 
-        // Update the subtotal
+        // Update the subtotal including the pre-calculated total price
         calculateSubtotal();
     }
 
-    // Function to calculate subtotal
-    function calculateSubtotal() {
+
+
+    function calculateSubtotal(productId) {
         var subtotal = 0;
-        // Iterate over all cards to sum up the prices
+        var vat = 0;
+        var totalPrice = 0;
+
+
         var cards = document.getElementsByClassName('card');
         for (var i = 0; i < cards.length; i++) {
             var card = cards[i];
             var priceElement = card.querySelector('.card-price');
             if (priceElement) {
-                // Extract the price from the text content
                 var priceText = priceElement.textContent;
                 var price = parseFloat(priceText.replace('$', ''));
                 subtotal += price;
             }
         }
 
-        // Calculate VAT (3.4% of the subtotal)
-        var vat = subtotal * 0.034;
+        vat = subtotal * 0.034;
 
-        // Calculate total price
-        var totalPrice = subtotal + vat;
+        totalPrice = subtotal + vat
 
-        // Update the subtotal, VAT, and total price displayed
-        document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
-        document.getElementById('vat').textContent = '$' + vat.toFixed(2);
-        document.getElementById('total_price').textContent = '$' + totalPrice.toFixed(2);
+
+        // Create an XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'store_prices.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('Prices stored successfully in the session.');
+
+                // Parse the JSON response text
+                var responseJson = JSON.parse(xhr.responseText);
+
+                // Extract prices from the parsed JSON object
+                var loggedSubtotal = parseFloat(responseJson.subtotal);
+                var loggedVat = parseFloat(responseJson.vat);
+                var loggedTotalPrice = parseFloat(responseJson.totalPrice);
+
+                // Update the subtotal, vat, and total price displayed on the webpage
+                document.getElementById('logged_subtotal').textContent = 'Subtotal: $' + loggedSubtotal.toFixed(2);
+                document.getElementById('logged_vat').textContent = 'VAT: $' + loggedVat.toFixed(2);
+                document.getElementById('logged_total_price').textContent = 'Total Price: $' + loggedTotalPrice
+                    .toFixed(2);
+
+                // Log the prices
+                console.log('Logged Subtotal:', loggedSubtotal);
+                console.log('Logged VAT:', loggedVat);
+                console.log('Logged Total Price:', loggedTotalPrice);
+            } else {
+                console.log('Error storing prices in the session.');
+            }
+        };
+
+        xhr.send('subtotal=' + encodeURIComponent(subtotal) + '&vat=' + encodeURIComponent(vat) + '&totalPrice=' +
+            encodeURIComponent(totalPrice));
     }
 
-    // Calculate subtotal when the page loads
-    window.onload = calculateSubtotal;
+
+
+    // Assign a function to be called when the window loads
+    window.onload = function() {
+        calculateSubtotal();
+    };
     </script>
 
 

@@ -141,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script>
@@ -316,23 +316,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <div class="text">
                                 <p> <i> Join SoleStride </i></p>
                             </div>
-                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                            <label for="email" class="form-label">Email address</label>
                             <input id="email" type="text" name="email" class="form-control"
                                 value="<?php echo $email; ?>" required>
                             <p class="error email-error">
                                 <?php echo $email_error1; ?>
                             </p>
-                            <label for="exampleFormControlInput1" class="form-label">Phone Number</label>
+                            <label for="phone_number" class="form-label">Phone Number</label>
                             <input id="phone_number" type="text" name="phone_number" class="form-control"
                                 value="<?php echo $phone_number; ?>" required>
                             <p class="error phone_number-error">
                                 <?php echo $phone_number_error; ?>
                             </p>
-                            <label for="exampleFormControlInput1" class="form-label">First Name</label>
+                            <label for="first_name" class="form-label">First Name</label>
                             <input id="first_name" type="text" name="first_name" class="form-control"
                                 value="<?php echo $first_name; ?>" required>
                             <br>
-                            <label for="exampleFormControlInput1" class="form-label">Last Name</label>
+                            <label for="last_name" class="form-label">Last Name</label>
                             <input id="last_name" type="text" name="last_name" class="form-control"
                                 value="<?php echo $last_name; ?>" required>
                             <br>
@@ -349,14 +349,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <input type="date" id="date_of_birth" name="date_of_birth" required>
 
                             <br><br>
-                            <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                            <label for="user_name" class="form-label">Email address</label>
                             <input id="user_name" type="text" name="user_name" class="form-control"
                                 value="<?php echo $user_name; ?>" required>
                             <p class="error user_name-error">
                                 <?php echo $user_name_error; ?>
                             </p>
 
-                            <label for="exampleFormControlInput1" class="form-label">Password</label>
+                            <label for="password_validation" class="form-label">Password</label>
                             <input type="password" id="password_validation" name="password" class="form-control"
                                 value="<?php echo $password; ?>" required>
                             <p class="error password-error">
@@ -372,7 +372,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 </ul><br>
                             </div>
 
-                            <label for="exampleFormControlInput1" class="form-label">Confirm Password</label>
+                            <label for="confirm_password" class="form-label">Confirm Password</label>
                             <input id="confirm_password" type="password" name="confirm_password" class="form-control"
                                 value="<?php echo $confirm_password; ?>" required>
                             <p class="error confirm_password-error">
