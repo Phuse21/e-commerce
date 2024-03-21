@@ -1,10 +1,25 @@
 <?php
-include("includes/connectionPage.php");
-include("functions/common_functions.php");
+include ("includes/connectionPage.php");
+include ("functions/common_functions.php");
+
+//Initialize Variables
+$first_name = $last_name = $email = $phone_number = $address = $address2 = $city = $state = $zip = '';
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $email = $_POST['email'];
+    $phone_number = $_POST['phone_number'];
+    $address = $_POST['address'];
+    $address2 = $_POST['address2'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $zip = $_POST['zip'];
+}
 
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,150 +38,89 @@ include("functions/common_functions.php");
     <!-- Bootstrap js link -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-    </script>
-    <script>
-    // Function to save shipping details in the session
-    function saveShippingDetails() {
-        // Retrieve form inputs
-        var firstName = document.getElementById('firstName').value;
-        var lastName = document.getElementById('lastName').value;
-        var email = document.getElementById('email').value;
-        var address = document.getElementById('address').value;
-        var address2 = document.getElementById('address2').value;
-        var city = document.getElementById('city').value;
-        var state = document.getElementById('state').value;
-        var zip = document.getElementById('zip').value;
+        </script>
 
-        // Create an XMLHttpRequest object
-        var xhr = new XMLHttpRequest();
-
-        // Configure the request
-        xhr.open('POST', 'shipping_details.php');
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        // Define the data to be sent in the request body
-        var data = 'firstName=' + encodeURIComponent(firstName) +
-            '&lastName=' + encodeURIComponent(lastName) +
-            '&address=' + encodeURIComponent(address) +
-            '&address2=' + encodeURIComponent(address2) +
-            '&city=' + encodeURIComponent(city) +
-            '&state=' + encodeURIComponent(state) +
-            '&zip=' + encodeURIComponent(zip);
-
-        // Set up event listener to process response
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('Shipping details saved successfully.');
-                // Redirect to the payment page or perform any other action
-                window.location.href =
-                    'payment.php';
-            } else {
-                console.log('Error saving shipping details.');
-            }
-        };
-
-        // Send the request
-        console.log(data);
-        xhr.send(data);
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        // Find the "Save & Continue" button by its ID
-        var saveAndContinueButton = document.getElementById('saveAndContinueButton');
-
-        // Check if the button element exists
-        if (saveAndContinueButton) {
-            // Attach a click event listener to the button
-            saveAndContinueButton.addEventListener('click', function(event) {
-                // Prevent the default form submission behavior
-                event.preventDefault();
-
-                // Call the function to save shipping details
-                saveShippingDetails();
-            });
-        }
-    });
-    </script>
 
 
 
     <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
 
 
 
-    .logo {
-        width: 4%;
-        height: 4%;
-    }
+        .logo {
+            width: 4%;
+            height: 4%;
+        }
 
-    .card a {
-        color: inherit;
-        text-decoration: none;
-    }
-
-
-    .card .nav-link {
-        position: relative;
-    }
+        .card a {
+            color: inherit;
+            text-decoration: none;
+        }
 
 
-    .image-container {
-        position: relative;
-        overflow: hidden;
-
-    }
-
-    .image-container::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .image-container:hover::before {
-        opacity: 1;
-    }
-
-    .image-container-img {
-        padding: 10px;
-        transition: transform 0.3s ease;
-        width: 100%;
-        height: 100%;
-    }
-
-    .image-container:hover .image-container-img {
-        transform: scale(1.1);
-    }
+        .card .nav-link {
+            position: relative;
+        }
 
 
-    .card-img-top {
-        height: 400px;
-        /* Set the desired height for the images */
-        object-fit: cover;
-    }
+        .image-container {
+            position: relative;
+            overflow: hidden;
 
-    .card-price {
-        margin-left: auto;
-    }
+        }
 
-    body {
-        overflow-x: hidden;
-    }
+        .image-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-container:hover::before {
+            opacity: 1;
+        }
+
+        .image-container-img {
+            padding: 10px;
+            transition: transform 0.3s ease;
+            width: 100%;
+            height: 100%;
+        }
+
+        .image-container:hover .image-container-img {
+            transform: scale(1.1);
+        }
+
+
+        .card-img-top {
+            height: 400px;
+            /* Set the desired height for the images */
+            object-fit: cover;
+        }
+
+        .card-price {
+            margin-left: auto;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
     </style>
 </head>
 
 <body>
+
     <!-- navbar -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-info-subtle">
@@ -208,11 +162,24 @@ include("functions/common_functions.php");
         <nav class="navbar navbar-expand-lg bg-secondary-subtle">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Welcome Guest</a>
+                    <a class="nav-link" href="#">Welcome
+                        <?php if (isset ($user_data['user_name'])) {
+                            echo $user_data['user_name'];
+                        } else
+                            echo "Guest"; ?>
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
+                <?php if (isset ($user_data['user_name'])) {
+                    echo "<li class='nav-item'>
+                    <a class='nav-link' href='users_area/logout.php'>Logout</a>
+                </li>";
+                } else {
+                    echo "<li class='nav-item'>
+                    <a class='nav-link' href='users_area/login.php'>Login</a>
+                </li>";
+                }
+                ?>
+
             </ul>
         </nav>
 
@@ -235,7 +202,7 @@ include("functions/common_functions.php");
                         <h5>Shipping Details</h5>
                     </div>
 
-                    <form class="row g-3" id="shippingForm">
+                    <form class="row g-3" method="post">
                         <div class="col-md-6">
                             <label for="firstName" class="form-label">First Name*</label>
                             <input type="text" class="form-control" id="firstName" name="firstName">
@@ -244,12 +211,9 @@ include("functions/common_functions.php");
                             <label for="lastName" class="form-label">Last Name*</label>
                             <input type="text" class="form-control" id="lastName" name="lastName">
                         </div>
+
                         <div class="col-12">
-                            <label for="email" class="form-label">Email*</label>
-                            <input type="text" class="form-control" id="email" name="email">
-                        </div>
-                        <div class="col-12">
-                            <label for="address" class="form-label">Address</label>
+                            <label for="address" class="form-label">Address*</label>
                             <input type="text" class="form-control" id="address" name="address"
                                 placeholder="5 Dingo St">
                         </div>
@@ -282,19 +246,36 @@ include("functions/common_functions.php");
                             <label for="zip" class="form-label">Zip</label>
                             <input type="text" class="form-control" id="zip" name="zip">
                         </div>
+                        <div class="col-6">
+                            <label for="email" class="form-label">Email*</label>
+                            <input type="text" class="form-control" id="email" name="email">
+                        </div>
+                        <div class="col-6">
+                            <label for="phone_number" class="form-label">Phone Number*</label>
+                            <input type="text" class="form-control" id="phone_number" name="phone_number">
+                        </div>
 
                         <div class="col-4 mt-3">
                             <button class="btn btn-primary btn-sm mt-2 mb-2 text-center" style="padding: 10px;
-    width: 70%; background-color: black; border-radius: 30px; border: 1px solid black
+    width: 70%; background-color: black; border-radius: 30px; border: 1px solid black;
             cursor: pointer;" onmouseover="this.style.backgroundColor='white'; this.style.color='#551a8b';this.style.border= '2px solid #551a8b'; this.style.fontWeight='bold';"
-                                onmouseout="this.style.backgroundColor='black'; this.style.border= 'none'; this.style.color='white'; this.style.fontWeight='normal';"
-                                onclick="saveShippingDetails()" id='saveAndContinueButton'>
+                                onmouseout="this.style.backgroundColor='black'; this.style.border= '2px solid black'; this.style.color='white'; this.style.fontWeight='normal';"
+                                type="submit">
                                 Save & Continue
                             </button>
                         </div>
                     </form>
 
-
+                    <form id="paymentForm">
+                        <div class="form-submit">
+                            <button type="submit" class="btn btn-primary mt-2" style="padding: 10px;
+    width: 10%; background-color: black; border-radius: 15px; border: 1px solid black;
+            cursor: pointer;" onmouseover="this.style.backgroundColor='white'; this.style.color='#551a8b';this.style.border= '2px solid #551a8b'; this.style.fontWeight='bold';"
+                                onmouseout="this.style.backgroundColor='black'; this.style.border= '2px solid black'; this.style.color='white'; this.style.fontWeight='normal';"
+                                onclick="payWithPaystack()">Pay</button>
+                        </div>
+                    </form>
+                    <script src="https://js.paystack.co/v1/inline.js"></script>
 
                 </div>
 
@@ -315,7 +296,7 @@ include("functions/common_functions.php");
                     <h6>
                         <?php
                         //check if subtotal is stored in session
-                        if (isset($_SESSION['subtotal'])) {
+                        if (isset ($_SESSION['subtotal'])) {
                             $subtotal = $_SESSION['subtotal'];
                             //display subtotal
                             echo "Subtotal: $" . number_format($subtotal, 2);
@@ -332,7 +313,7 @@ include("functions/common_functions.php");
                     <h6>
                         <?php
                         //check if VAT is stored in session
-                        if (isset($_SESSION['vat'])) {
+                        if (isset ($_SESSION['vat'])) {
                             $vat = $_SESSION['vat'];
                             //display VAT
                             echo "VAT: $" . number_format($vat, 2);
@@ -349,7 +330,7 @@ include("functions/common_functions.php");
                     <h6>
                         <?php
                         //check if Total Price is stored in session
-                        if (isset($_SESSION['total_price'])) {
+                        if (isset ($_SESSION['total_price'])) {
                             $total_price = $_SESSION['total_price'];
                             //display Total Price
                             echo "Total Price: $" . number_format($total_price, 2);
@@ -380,6 +361,7 @@ include("functions/common_functions.php");
     </div>
 
     </div>
+
 
 </body>
 

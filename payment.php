@@ -1,6 +1,6 @@
 <?php
-include("includes/connectionPage.php");
-include("functions/common_functions.php");
+include ("includes/connectionPage.php");
+include ("functions/common_functions.php");
 
 
 ?>
@@ -135,11 +135,24 @@ include("functions/common_functions.php");
         <nav class="navbar navbar-expand-lg bg-secondary-subtle">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Welcome Guest</a>
+                    <a class="nav-link" href="#">Welcome
+                        <?php if (isset ($user_data['user_name'])) {
+                            echo $user_data['user_name'];
+                        } else
+                            echo "Guest"; ?>
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
+                <?php if (isset ($user_data['user_name'])) {
+                    echo "<li class='nav-item'>
+                    <a class='nav-link' href='users_area/logout.php'>Logout</a>
+                </li>";
+                } else {
+                    echo "<li class='nav-item'>
+                    <a class='nav-link' href='users_area/login.php'>Login</a>
+                </li>";
+                }
+                ?>
+
             </ul>
         </nav>
 
@@ -167,7 +180,7 @@ include("functions/common_functions.php");
             </div>
             <!--col end-->
             <?php
-            include("payconfigs.php");
+            include ("payconfigs.php");
             $email = $_SESSION['email'];
             $amount = $_SESSION['total_price'] * 100;
             $currency = "USD";
@@ -213,7 +226,7 @@ include("functions/common_functions.php");
                     <h6>
                         <?php
                         //check if subtotal is stored in session
-                        if (isset($_SESSION['subtotal'])) {
+                        if (isset ($_SESSION['subtotal'])) {
                             $subtotal = $_SESSION['subtotal'];
                             //display subtotal
                             echo "Subtotal: $" . number_format($subtotal, 2);
@@ -230,7 +243,7 @@ include("functions/common_functions.php");
                     <h6>
                         <?php
                         //check if VAT is stored in session
-                        if (isset($_SESSION['vat'])) {
+                        if (isset ($_SESSION['vat'])) {
                             $vat = $_SESSION['vat'];
                             //display VAT
                             echo "VAT: $" . number_format($vat, 2);
@@ -247,7 +260,7 @@ include("functions/common_functions.php");
                     <h6>
                         <?php
                         //check if Total Price is stored in session
-                        if (isset($_SESSION['total_price'])) {
+                        if (isset ($_SESSION['total_price'])) {
                             $total_price = $_SESSION['total_price'];
                             //display Total Price
                             echo "Total Price: $" . number_format($total_price, 2);

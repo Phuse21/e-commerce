@@ -311,8 +311,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                         <form method="post">
                             <!-------------      image     ------------->
+                            <a href="../index.php"><img src="../images/logo.png" alt=""></a>
 
-                            <img src="../images/logo.png" alt="">
                             <div class="text">
                                 <p> <i> Join SoleStride </i></p>
                             </div>

@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-include("../includes/connectionPage.php");
-include("functionsPage.php");
+include ("../includes/connectionPage.php");
+include ("functionsPage.php");
 
 
 
 // Check if an error message is stored in the session
-if (isset($_SESSION['error_message'])) {
+if (isset ($_SESSION['error_message'])) {
     echo '<div id="box">' . $_SESSION['error_message'] . '</div>';
     unset($_SESSION['error_message']); // Clear the error message from the session
 }
@@ -33,9 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $user_data = mysqli_fetch_assoc($result);
                 if (password_verify($enteredPassword, $user_data['password'])) {
                     $_SESSION['user_id'] = $user_data['user_id'];
-                    $_SESSION['successMessage'] = "Login successful";
-                    header("Location: ../index.php");
-                    die;
+                    if (isset ($_SESSION['cartItems']) && !empty ($_SESSION['cartItems'])) {
+
+                        header("Location: ../bag.php");
+                        die;
+                    } else {
+                        header("Location: ../index.php");
+                        die;
+                    }
                 } else {
                     $password_error = "Wrong Email or Password";
                 }
@@ -50,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 
 <?php
-if (isset($_GET['successMessage'])) {
+if (isset ($_GET['successMessage'])) {
     $successMessage = $_GET['successMessage'];
     echo '<div id="box" style="color:grey;">' . $successMessage . '</div>';
 } ?>
@@ -71,103 +76,103 @@ if (isset($_GET['successMessage'])) {
 
 <body>
     <style type="text/css">
-    .error {
-        color: red;
-        border-radius: 3px;
+        .error {
+            color: red;
+            border-radius: 3px;
 
-        font-size: 14px;
-        width: 290px;
+            font-size: 14px;
+            width: 290px;
 
-    }
+        }
 
-    .wrapper {
-        background: #ececec;
-        padding: 0 20px 0 20px;
+        .wrapper {
+            background: #ececec;
+            padding: 0 20px 0 20px;
 
-    }
+        }
 
-    .side-image {
-        background-image: url("images/2.jpg");
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        border-radius: 10px 0 0 10px;
-        position: relative;
-    }
+        .side-image {
+            background-image: url("images/2.jpg");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 10px 0 0 10px;
+            position: relative;
+        }
 
-    .row {
-        width: 900px;
-        height: 550px;
-        border-radius: 10px;
-        background: #fff;
-        padding: 0px;
-        box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
-    }
+        .row {
+            width: 900px;
+            height: 550px;
+            border-radius: 10px;
+            background: #fff;
+            padding: 0px;
+            box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
+        }
 
-    .main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        width: 100%;
-        height: 100%;
-    }
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            height: 100%;
+        }
 
-    img {
-        width: 60px;
-        height: 60px;
-        position: absolute;
-        top: 10px;
-        left: 20px;
-    }
+        img {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
 
-    .right {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-    }
+        .right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-    .side-image {
-        background-image: url("../images/background.jpg");
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        border-radius: 10px 0 0 10px;
-        position: relative;
-    }
+        .side-image {
+            background-image: url("../images/background.jpg");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 10px 0 0 10px;
+            position: relative;
+        }
 
-    .text {
-        position: top;
-        text-align: center;
-        padding: 20px;
-        font-size: 20px;
-        font-weight: 400;
-        margin-top: 40px;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        color: black;
-    }
+        .text {
+            position: top;
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: 400;
+            margin-top: 40px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: black;
+        }
 
-    .text p {
-        color: #black;
-        font-size: 20px;
-    }
+        .text p {
+            color: #black;
+            font-size: 20px;
+        }
 
-    .i {
-        font-weight: 400;
-        font-size: 15px;
-    }
-
-
-    #box {
-        background-color: #fff;
-        margin: auto;
-        width: 100%;
-        padding: 20px;
-        height: 100%;
+        .i {
+            font-weight: 400;
+            font-size: 15px;
+        }
 
 
-    }
+        #box {
+            background-color: #fff;
+            margin: auto;
+            width: 100%;
+            padding: 20px;
+            height: 100%;
+
+
+        }
     </style>
     <div class="wrapper">
         <div class="container main">
@@ -182,8 +187,8 @@ if (isset($_GET['successMessage'])) {
 
                         <form method="post">
                             <!-------------      image     ------------->
+                            <a href="../index.php"><img src="../images/logo3.png"></a>
 
-                            <img src="../images/logo.png" alt="">
                             <div class="text">
                                 <p> <i> Login </i></p>
                             </div>

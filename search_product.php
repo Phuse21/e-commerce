@@ -1,6 +1,6 @@
 <?php
-include("includes/connectionPage.php");
-include("functions/common_functions.php");
+include ("includes/connectionPage.php");
+include ("functions/common_functions.php");
 
 ?>
 
@@ -64,14 +64,7 @@ include("functions/common_functions.php");
                                     <?php cart_items(); ?>
                                 </sup></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Total Price:
 
-                                <?php echo "$"; {
-                                    total_cart_price();
-                                } ?>
-                            </a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -81,11 +74,24 @@ include("functions/common_functions.php");
         <nav class="navbar navbar-expand-lg bg-secondary-subtle">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Welcome Guest</a>
+                    <a class="nav-link" href="#">Welcome
+                        <?php if (isset ($user_data['user_name'])) {
+                            echo $user_data['user_name'];
+                        } else
+                            echo "Guest"; ?>
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Login</a>
-                </li>
+                <?php if (isset ($user_data['user_name'])) {
+                    echo "<li class='nav-item'>
+                    <a class='nav-link' href='users_area/logout.php'>Logout</a>
+                </li>";
+                } else {
+                    echo "<li class='nav-item'>
+                    <a class='nav-link' href='users_area/login.php'>Login</a>
+                </li>";
+                }
+                ?>
+
             </ul>
         </nav>
 
@@ -143,7 +149,7 @@ include("functions/common_functions.php");
 
 
             </div>
-            <?php if (!isset($brand_id) && !isset($category_id)): ?>
+            <?php if (!isset ($brand_id) && !isset ($category_id)): ?>
                 <div class="col-md-10">
 
 

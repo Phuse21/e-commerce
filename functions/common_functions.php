@@ -6,28 +6,33 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 //include connection
-include("./includes/connectionPage.php");
+include ("./includes/connectionPage.php");
 
 
 // check if user is logged in
 function check_login($con)
 {
 
-    if (isset($_SESSION['user_id'])) {
-        $id = $_SESSION['user_id'];
-        $query = "SELECT * FROM users WHERE user_id = '$id' LIMIT 1";
+    if (isset ($_SESSION['user_id'])) {
+        // Sanitize the user_id to prevent SQL injection
+        $user_id = mysqli_real_escape_string($con, $_SESSION['user_id']);
+
+        $query = "SELECT * FROM users WHERE user_id = '$user_id' LIMIT 1";
 
         $result = mysqli_query($con, $query);
         if ($result && mysqli_num_rows($result) > 0) {
             $user_data = mysqli_fetch_assoc($result);
             return $user_data;
+        } else {
+            return null;
         }
+    } else {
+        return null;
     }
 
-    // Redirect to the login page
-    header("Location: loginPage.php");
-    exit();
 }
+
+$user_data = check_login($con);
 
 
 // generate random number
@@ -58,8 +63,8 @@ function get_products()
 
     global $con;
     //check isset or not
-    if (!isset($_GET['category'])) {
-        if (!isset($_GET['brand'])) {
+    if (!isset ($_GET['category'])) {
+        if (!isset ($_GET['brand'])) {
             $select_query = "SELECT * FROM `products` ORDER BY RAND() LIMIT 0,3";
             $result_query = mysqli_query($con, $select_query);
             while ($row = mysqli_fetch_assoc($result_query)) {
@@ -113,7 +118,7 @@ function get_unique_categories()
 {
     global $con;
     //check isset or not
-    if (isset($_GET['category'])) {
+    if (isset ($_GET['category'])) {
         $category_id = $_GET['category'];
 
         $select_query = "SELECT * FROM `products` WHERE category_id = '$category_id'";
@@ -180,7 +185,7 @@ function get_unique_brands()
 {
     global $con;
     //check isset or not
-    if (isset($_GET['brand'])) {
+    if (isset ($_GET['brand'])) {
         $brand_id = $_GET['brand'];
 
         $select_query = "SELECT * FROM `products` WHERE brand_id = '$brand_id'";
@@ -339,7 +344,7 @@ function get_categories()
 function search_product()
 {
     global $con;
-    if (isset($_GET['search_data_product'])) {
+    if (isset ($_GET['search_data_product'])) {
 
         $search_data_value = $_GET['search_data'];
 
@@ -402,9 +407,9 @@ function display_details()
 {
     global $con;
     //check isset or not
-    if (isset($_GET['product_id'])) {
-        if (!isset($_GET['category'])) {
-            if (!isset($_GET['brand'])) {
+    if (isset ($_GET['product_id'])) {
+        if (!isset ($_GET['category'])) {
+            if (!isset ($_GET['brand'])) {
                 $product_id = $_GET['product_id'];
                 $select_query = "SELECT * FROM `products` WHERE product_id = $product_id";
                 $result_query = mysqli_query($con, $select_query);
@@ -524,11 +529,11 @@ function showRelatedProducts()
 function getIPAddress()
 {
     //whether ip is from the share internet  
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+    if (!empty ($_SERVER['HTTP_CLIENT_IP'])) {
         $ip = $_SERVER['HTTP_CLIENT_IP'];
     }
     //whether ip is from the proxy  
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    elseif (!empty ($_SERVER['HTTP_X_FORWARDED_FOR'])) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
     }
     //whether ip is from the remote address  
@@ -548,12 +553,12 @@ function getIPAddress()
 
 function addToCart($productId)
 {
-    if (empty($productId)) {
+    if (empty ($productId)) {
         return;
     }
 
     // Initialize an empty array to store cart items
-    $cartItems = isset($_SESSION['cartItems']) ? $_SESSION['cartItems'] : array();
+    $cartItems = isset ($_SESSION['cartItems']) ? $_SESSION['cartItems'] : array();
 
     // Check if the product is already in the cart
     if (in_array($productId, $cartItems)) {
@@ -579,7 +584,7 @@ function addToCart($productId)
 }
 
 // Check if 'add_to_cart' parameter is set in the URL
-if (isset($_GET['add_to_cart'])) {
+if (isset ($_GET['add_to_cart'])) {
     // Get the product ID to add to cart
     $product_id = $_GET['add_to_cart'];
 
@@ -599,7 +604,7 @@ function cart_items()
     $totalItems = 0;
 
     // Check if 'cartItems' session variable is set and not empty
-    if (isset($_SESSION['cartItems']) && !empty($_SESSION['cartItems'])) {
+    if (isset ($_SESSION['cartItems']) && !empty ($_SESSION['cartItems'])) {
         // Retrieve cart items from the session
         $cartItems = $_SESSION['cartItems'];
 
@@ -626,7 +631,7 @@ function total_cart_price()
     $totalPrice = 0;
 
     // Check if 'cartItems' session variable is set and not empty
-    if (isset($_SESSION['cartItems']) && !empty($_SESSION['cartItems'])) {
+    if (isset ($_SESSION['cartItems']) && !empty ($_SESSION['cartItems'])) {
         // Retrieve cart items from the session
         $cartItems = $_SESSION['cartItems'];
 
@@ -652,12 +657,12 @@ function display_cart_items()
     global $con;
 
     // Check if the 'cartItems' session variable is set and not empty
-    if (isset($_SESSION['cartItems']) && !empty($_SESSION['cartItems'])) {
+    if (isset ($_SESSION['cartItems']) && !empty ($_SESSION['cartItems'])) {
         // Retrieve cart items from the session
         $cartItems = $_SESSION['cartItems'];
 
         // Handle item deletion if submitted
-        if (isset($_POST['delete_product_id'])) {
+        if (isset ($_POST['delete_product_id'])) {
             // Sanitize input to prevent SQL injection
             $delete_product_id = mysqli_real_escape_string($con, $_POST['delete_product_id']);
 
@@ -669,7 +674,7 @@ function display_cart_items()
         }
 
         // Check if the cart is empty after item deletion
-        if (empty($cartItems)) {
+        if (empty ($cartItems)) {
             // Return message indicating cart is empty
             return "<p>Your cart is empty.</p>";
         }
