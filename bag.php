@@ -215,21 +215,27 @@ include ("functions/common_functions.php");
                 <h6>
                     <div id="logged_total_price"></div>
                 </h6>
-                <button type='button' id='checkoutButton' class='btn btn-primary btn-lg mt-2 mb-2 text-center'
-                    style='width: 70%; background-color: black; border-radius: 30px; border: 1px solid black;'>
-                    Checkout
-                </button>
 
-                <!-- Hidden popup -->
-                <div id="popup" class="popup" style="display: none;">
-                    <div class="popup-content">
-                        <p>Would you like to login or checkout as a guest?</p>
-                        <button type="button" class="btn btn-primary btn-sm mb-2" onclick="login()">Login</button>
-                        <button type="button" class="btn btn-primary btn-sm mb-2 " onclick="checkoutAsGuest()">Checkout
-                            as Guest</button>
+                <?php
+                if (isset ($_SESSION['user_id'])) {
+                    echo " <a href='checkout.php'>
+                    <button type='button' id='checkoutButton' class='btn btn-primary btn-lg mt-2 mb-2 text-center'
+    style='width: 70%; background-color: black; border-radius: 30px; border: 1px solid black;'>
+   Checkout
+</button>
+</a>";
+                } else {
+                    echo "<a href='users_area/login.php'>
+                    <button type='button' id='checkoutButton' class='btn btn-primary btn-lg mt-2 mb-2 text-center'
+    style='width: 70%; background-color: black; border-radius: 30px; border: 1px solid black;'>
+   Login to Checkout
+</button>
+</a>";
+                }
+                ?>
 
-                    </div>
-                </div>
+
+
 
                 <a href='index.php'> <button type='button' class='btn btn-primary btn-lg mt-2 mb-2 text-dark' style='width: 70%; background-color:white; border-radius: 30px;
                             border: 1px solid black; text'>
@@ -274,42 +280,42 @@ include ("functions/common_functions.php");
         </script>
 
     <script>
-        var checkoutButton = document.getElementById('checkoutButton');
-        var popup = document.getElementById('popup');
+        // var checkoutButton = document.getElementById('checkoutButton');
+        // var popup = document.getElementById('popup');
 
-        // Function to display the popup when clicking the button
-        checkoutButton.addEventListener('click', function () {
-            popup.style.display = 'block';
-        });
+        // // Function to display the popup when clicking the button
+        // checkoutButton.addEventListener('click', function () {
+        //     popup.style.display = 'block';
+        // });
 
-        // Function to close the popup when mouse leaves the button or the popup
-        popup.addEventListener('mouseleave', function () {
-            popup.style.display = 'none';
-        });
+        // // Function to close the popup when mouse leaves the button or the popup
+        // popup.addEventListener('mouseleave', function () {
+        //     popup.style.display = 'none';
+        // });
 
-        // Add event listener to close popup when clicking outside of it
-        document.addEventListener('click', function (event) {
-            var isClickInsidePopup = popup.contains(event.target);
-            var isClickOnCheckoutButton = event.target === checkoutButton;
+        // // Add event listener to close popup when clicking outside of it
+        // document.addEventListener('click', function (event) {
+        //     var isClickInsidePopup = popup.contains(event.target);
+        //     var isClickOnCheckoutButton = event.target === checkoutButton;
 
-            if (!isClickInsidePopup && !isClickOnCheckoutButton) {
-                popup.style.display = 'none';
-            }
-        });
+        //     if (!isClickInsidePopup && !isClickOnCheckoutButton) {
+        //         popup.style.display = 'none';
+        //     }
+        // });
 
-        // Function to handle login option
-        function login() {
-            // Redirect to login page or handle login functionality here
-            // For example:
-            window.location.href = './users_area/login.php';
-        }
+        // // Function to handle login option
+        // function login() {
+        //     // Redirect to login page or handle login functionality here
+        //     // For example:
+        //     window.location.href = './users_area/login.php';
+        // }
 
-        // Function to handle checkout as guest option
-        function checkoutAsGuest() {
-            // Redirect to checkout page for guest checkout or handle guest checkout functionality here
-            // For example:
-            window.location.href = 'checkout.php';
-        }
+        // // Function to handle checkout as guest option
+        // function checkoutAsGuest() {
+        //     // Redirect to checkout page for guest checkout or handle guest checkout functionality here
+        //     // For example:
+        //     window.location.href = 'checkout.php';
+        // }
 
 
         // Function to update item price and calculate subtotal
