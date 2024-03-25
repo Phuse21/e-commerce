@@ -1,18 +1,14 @@
 <?php
 session_start();
 
-include("../includes/connectionPage.php");
-include("functionsPage.php");
+include ("../includes/connectionPage.php");
+include ("functionsPage.php");
 
 
-// Add cache-control headers to prevent caching of the index page
-// header('Cache-Control: no-store, no-cache, must-revalidate');
-// header('Pragma: no-cache');
-// header('Expires: 0');
 
 
 // Check if an error message is stored in the session
-if (isset($_SESSION['error_message'])) {
+if (isset ($_SESSION['error_message'])) {
     echo '<div id="box">' . $_SESSION['error_message'] . '</div>';
     unset($_SESSION['error_message']); // Clear the error message from the session
 }
@@ -50,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $query = "SELECT * FROM users WHERE email = '$email'";
     $result = mysqli_query($con, $query);
     // Check if email is valid
-    if (filter_var($email, FILTER_VALIDATE_EMAIL) === false && !empty($email)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL) === false && !empty ($email)) {
         $email_error = "Invalid email";
     } else {
 
@@ -107,21 +103,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                         if (mysqli_query($con, $query) && $hasUppercase && $hasLowercase && $hasNumber && $hasSymbol && $hasMinLength) {
 
-                            // Set the success message in a query parameter
-                            $successMessage = "Account created successfully";
-                            $redirectUrl = "loginPage.php?successMessage=" . urlencode($successMessage);
 
-                            // Delay redirect
-                            sleep(2); // 2 seconds
+                            // Display a success message and redirect to the login page
+                            $signup_success = true; // Set PHP variable indicating success
+                            $redirect_url = "login.php"; // URL to redirect
 
 
-
-                            // Redirect to the login page with the success message
-                            header("Location: " . $redirectUrl);
-                            exit();
                         } else {
                             // Display an error message if the account creation fails
-                            echo "Error: " . mysqli_error($con);
+                            $invalid_input_error = "Invalid input";
                         }
                     }
                 }
@@ -144,15 +134,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script>
-    window.history.forward();
-    </script>
+
 
 
     <title>Signup</title>
     < </head>
 
 <body>
+    <?php if (isset ($signup_success) && $signup_success): ?>
+    <div id="signup-success" style="display: none;">
+        <?php echo $redirect_url; ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if (isset ($invalid_input_error)): ?>
+    <div id="invalid-input">
+        <?php echo $invalid_input_error; ?>
+    </div>
+    <?php endif; ?>
+
+
     <style type="text/css">
     .error {
         color: red;
@@ -275,7 +276,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
     .password-strength ul li span:before {
-        content: "\2716";
+        content: "\2717";
         padding-right: 5px;
     }
 
@@ -285,7 +286,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
 
-
+    /* \2717 */
 
     #box {
         background-color: #fff;
@@ -349,7 +350,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <input type="date" id="date_of_birth" name="date_of_birth" required>
 
                             <br><br>
-                            <label for="user_name" class="form-label">Email address</label>
+                            <label for="user_name" class="form-label">User Name</label>
                             <input id="user_name" type="text" name="user_name" class="form-control"
                                 value="<?php echo $user_name; ?>" required>
                             <p class="error user_name-error">
@@ -435,7 +436,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     });
     </script>
+    <script>
+    // JavaScript to handle alert after page load
+    document.addEventListener("DOMContentLoaded", function() {
+        var signupSuccess = document.getElementById("signup-success");
+        var invalidInput = document.getElementById("invalid-input");
 
+        if (signupSuccess) {
+            var redirectUrl = signupSuccess.textContent;
+            alert("Signup Successful.");
+            window.location.href = redirectUrl; // Redirect the user
+        } else if (invalidInput) {
+            alert(invalidInput.textContent);
+        }
+    });
+    </script>
 
 </body>
 

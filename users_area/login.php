@@ -19,10 +19,10 @@ $email_error = $password_error = "";
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     //something was posted
-    $email = $_POST['email'];
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $enteredPassword = $_POST['password'];
 
-    if (!is_numeric($email)) {
+    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
         //read from database
 
         $query = "select * from users where email = '$email' limit 1";
@@ -33,6 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $user_data = mysqli_fetch_assoc($result);
                 if (password_verify($enteredPassword, $user_data['password'])) {
                     $_SESSION['user_id'] = $user_data['user_id'];
+                    session_regenerate_id(true); // Regenerate session ID
                     if (isset ($_SESSION['cartItems']) && !empty ($_SESSION['cartItems'])) {
                         $login_success = true; // Set PHP variable indicating success
                         $redirect_url = "../bag.php"; // URL to redirect
@@ -48,16 +49,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     } else {
-        echo '<div id="box">' . "Invalid input" . '</div>';
+        $invalid_input_error = "Invalid input";
     }
 }
 ?>
 
-<?php
-if (isset ($_GET['successMessage'])) {
-    $successMessage = $_GET['successMessage'];
-    echo '<div id="box" style="color:grey;">' . $successMessage . '</div>';
-} ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -74,112 +71,116 @@ if (isset ($_GET['successMessage'])) {
 </head>
 
 <body>
-    <?php if (isset($login_success) && $login_success) : ?>
-    <div id="login-success" style="display: none;"><?php echo $redirect_url; ?></div>
+    <?php if (isset ($login_success) && $login_success): ?>
+        <div id="login-success" style="display: none;">
+            <?php echo $redirect_url; ?>
+        </div>
     <?php endif; ?>
 
-    <?php if (isset($invalid_input_error)) : ?>
-    <div id="invalid-input"><?php echo $invalid_input_error; ?></div>
+    <?php if (isset ($invalid_input_error)): ?>
+        <div id="invalid-input">
+            <?php echo $invalid_input_error; ?>
+        </div>
     <?php endif; ?>
 
     <style type="text/css">
-    .error {
-        color: red;
-        border-radius: 3px;
+        .error {
+            color: red;
+            border-radius: 3px;
 
-        font-size: 14px;
-        width: 290px;
+            font-size: 14px;
+            width: 290px;
 
-    }
+        }
 
-    .wrapper {
-        background: #ececec;
-        padding: 0 20px 0 20px;
+        .wrapper {
+            background: #ececec;
+            padding: 0 20px 0 20px;
 
-    }
+        }
 
-    .side-image {
-        background-image: url("images/2.jpg");
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        border-radius: 10px 0 0 10px;
-        position: relative;
-    }
+        .side-image {
+            background-image: url("images/2.jpg");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 10px 0 0 10px;
+            position: relative;
+        }
 
-    .row {
-        width: 900px;
-        height: 550px;
-        border-radius: 10px;
-        background: #fff;
-        padding: 0px;
-        box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
-    }
+        .row {
+            width: 900px;
+            height: 550px;
+            border-radius: 10px;
+            background: #fff;
+            padding: 0px;
+            box-shadow: 5px 5px 10px 1px rgba(0, 0, 0, 0.2);
+        }
 
-    .main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        width: 100%;
-        height: 100%;
-    }
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            width: 100%;
+            height: 100%;
+        }
 
-    img {
-        width: 60px;
-        height: 60px;
-        position: absolute;
-        top: 10px;
-        left: 20px;
-    }
+        img {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+        }
 
-    .right {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-    }
+        .right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
 
-    .side-image {
-        background-image: url("../images/background.jpg");
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        border-radius: 10px 0 0 10px;
-        position: relative;
-    }
+        .side-image {
+            background-image: url("../images/background.jpg");
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 10px 0 0 10px;
+            position: relative;
+        }
 
-    .text {
-        position: top;
-        text-align: center;
-        padding: 20px;
-        font-size: 20px;
-        font-weight: 400;
-        margin-top: 40px;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        color: black;
-    }
+        .text {
+            position: top;
+            text-align: center;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: 400;
+            margin-top: 40px;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            color: black;
+        }
 
-    .text p {
-        color: #black;
-        font-size: 20px;
-    }
+        .text p {
+            color: #black;
+            font-size: 20px;
+        }
 
-    .i {
-        font-weight: 400;
-        font-size: 15px;
-    }
-
-
-    #box {
-        background-color: #fff;
-        margin: auto;
-        width: 100%;
-        padding: 20px;
-        height: 100%;
+        .i {
+            font-weight: 400;
+            font-size: 15px;
+        }
 
 
-    }
+        #box {
+            background-color: #fff;
+            margin: auto;
+            width: 100%;
+            padding: 20px;
+            height: 100%;
+
+
+        }
     </style>
     <div class="wrapper">
         <div class="container main">
@@ -229,19 +230,19 @@ if (isset ($_GET['successMessage'])) {
 
 
     <script>
-    // JavaScript to handle alert after page load
-    document.addEventListener("DOMContentLoaded", function() {
-        var loginSuccess = document.getElementById("login-success");
-        var invalidInput = document.getElementById("invalid-input");
+        // JavaScript to handle alert after page load
+        document.addEventListener("DOMContentLoaded", function () {
+            var loginSuccess = document.getElementById("login-success");
+            var invalidInput = document.getElementById("invalid-input");
 
-        if (loginSuccess) {
-            var redirectUrl = loginSuccess.textContent;
-            alert("Login Successful.");
-            window.location.href = redirectUrl; // Redirect the user
-        } else if (invalidInput) {
-            alert(invalidInput.textContent);
-        }
-    });
+            if (loginSuccess) {
+                var redirectUrl = loginSuccess.textContent;
+                alert("Login Successful.");
+                window.location.href = redirectUrl; // Redirect the user
+            } else if (invalidInput) {
+                alert(invalidInput.textContent);
+            }
+        });
     </script>
 </body>
 

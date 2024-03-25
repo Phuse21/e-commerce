@@ -38,84 +38,84 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Bootstrap js link -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+    </script>
 
 
 
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
 
 
 
-        .logo {
-            width: 4%;
-            height: 4%;
-        }
+    .logo {
+        width: 4%;
+        height: 4%;
+    }
 
-        .card a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-
-        .card .nav-link {
-            position: relative;
-        }
+    .card a {
+        color: inherit;
+        text-decoration: none;
+    }
 
 
-        .image-container {
-            position: relative;
-            overflow: hidden;
-
-        }
-
-        .image-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .image-container:hover::before {
-            opacity: 1;
-        }
-
-        .image-container-img {
-            padding: 10px;
-            transition: transform 0.3s ease;
-            width: 100%;
-            height: 100%;
-        }
-
-        .image-container:hover .image-container-img {
-            transform: scale(1.1);
-        }
+    .card .nav-link {
+        position: relative;
+    }
 
 
-        .card-img-top {
-            height: 400px;
-            /* Set the desired height for the images */
-            object-fit: cover;
-        }
+    .image-container {
+        position: relative;
+        overflow: hidden;
 
-        .card-price {
-            margin-left: auto;
-        }
+    }
 
-        body {
-            overflow-x: hidden;
-        }
+    .image-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-container:hover::before {
+        opacity: 1;
+    }
+
+    .image-container-img {
+        padding: 10px;
+        transition: transform 0.3s ease;
+        width: 100%;
+        height: 100%;
+    }
+
+    .image-container:hover .image-container-img {
+        transform: scale(1.1);
+    }
+
+
+    .card-img-top {
+        height: 400px;
+        /* Set the desired height for the images */
+        object-fit: cover;
+    }
+
+    .card-price {
+        margin-left: auto;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
     </style>
 </head>
 
@@ -205,11 +205,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form class="row g-3" method="post">
                         <div class="col-md-6">
                             <label for="firstName" class="form-label">First Name*</label>
-                            <input type="text" class="form-control" id="firstName" name="firstName">
+                            <input type="text" class="form-control" id="firstName" name="firstName"
+                                value="<?php echo isset($user_data['first_name']) ? $user_data['first_name'] : ''; ?>">
                         </div>
                         <div class="col-md-6">
                             <label for="lastName" class="form-label">Last Name*</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName">
+                            <input type="text" class="form-control" id="lastName" name="lastName"
+                                value="<?php echo isset($user_data['last_name']) ? $user_data['last_name'] : ''; ?>">
                         </div>
 
                         <div class="col-12">
@@ -248,11 +250,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="col-6">
                             <label for="email" class="form-label">Email*</label>
-                            <input type="text" class="form-control" id="email" name="email">
+                            <input type="text" class="form-control" id="email" name="email"
+                                value="<?php echo isset($user_data['email']) ? $user_data['email'] : ''; ?>">
                         </div>
                         <div class="col-6">
                             <label for="phone_number" class="form-label">Phone Number*</label>
-                            <input type="text" class="form-control" id="phone_number" name="phone_number">
+                            <input type="text" class="form-control" id="phone_number" name="phone_number"
+                                value="<?php echo isset($user_data['phone_number']) ? $user_data['phone_number'] : ''; ?>">
                         </div>
 
                         <div class="col-4 mt-3">
@@ -266,7 +270,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </form>
 
-                    <form id="paymentForm">
+                    <!-- <form id="paymentForm">
                         <div class="form-submit">
                             <button type="submit" class="btn btn-primary mt-2" style="padding: 10px;
     width: 10%; background-color: black; border-radius: 15px; border: 1px solid black;
@@ -275,7 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 onclick="payWithPaystack()">Pay</button>
                         </div>
                     </form>
-                    <script src="https://js.paystack.co/v1/inline.js"></script>
+                    <script src="https://js.paystack.co/v1/inline.js"></script> -->
 
                 </div>
 
