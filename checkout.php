@@ -2,23 +2,54 @@
 include ("includes/connectionPage.php");
 include ("functions/common_functions.php");
 
-//Initialize Variables
-$first_name = $last_name = $email = $phone_number = $address = $address2 = $city = $state = $zip = '';
 
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
-    $email = $_POST['email'];
-    $phone_number = $_POST['phone_number'];
+// Check if the form is submitted
+if (isset ($_POST['shipping_details'])) {
+    // Retrieve form data
+    $first_name = $_POST['firstName'];
+    $last_name = $_POST['lastName'];
     $address = $_POST['address'];
     $address2 = $_POST['address2'];
     $city = $_POST['city'];
     $state = $_POST['state'];
     $zip = $_POST['zip'];
+    $email = $_POST['email'];
+    $phone_number = $_POST['phone_number'];
+
+    // Check for empty fields
+    if (
+        empty ($first_name) || empty ($last_name) || empty ($address) || empty ($city) ||
+        empty ($state) || empty ($zip) || empty ($email) || empty ($phone_number)
+    ) {
+        echo "<script>alert('Please fill out all fields!')</script>";
+    } else {
+
+        // Prepare the statement
+        $query = $con->prepare("INSERT INTO `shipping_details` (first_name, last_name, address,
+                                address2, city, state, zip, email, phone_number, time) 
+                                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now())");
+
+        if ($query) {
+            // Bind the parameters
+            $query->bind_param("sssssssss", $first_name, $last_name, $address, $address2, $city, $state, $zip, $email, $phone_number);
+
+            // Execute the statement
+            if ($query->execute()) {
+                echo "<script>alert('Shipping Details Added Successfully'); window.location='payment.php';</script>";
+                exit;
+            } else {
+                // Handle execution errors
+                echo "<script>alert('Error: Unable to add shipping details')</script>";
+            }
+
+            // Close the statement
+            $query->close();
+        } else {
+            // Handle statement preparation errors
+            echo "<script>alert('Error: Unable to prepare statement')</script>";
+        }
+    }
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -206,12 +237,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-md-6">
                             <label for="firstName" class="form-label">First Name*</label>
                             <input type="text" class="form-control" id="firstName" name="firstName"
-                                value="<?php echo isset($user_data['first_name']) ? $user_data['first_name'] : ''; ?>">
+                                value="<?php echo isset ($user_data['first_name']) ? $user_data['first_name'] : ''; ?>">
                         </div>
                         <div class="col-md-6">
                             <label for="lastName" class="form-label">Last Name*</label>
                             <input type="text" class="form-control" id="lastName" name="lastName"
-                                value="<?php echo isset($user_data['last_name']) ? $user_data['last_name'] : ''; ?>">
+                                value="<?php echo isset ($user_data['last_name']) ? $user_data['last_name'] : ''; ?>">
                         </div>
 
                         <div class="col-12">
@@ -251,12 +282,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-6">
                             <label for="email" class="form-label">Email*</label>
                             <input type="text" class="form-control" id="email" name="email"
-                                value="<?php echo isset($user_data['email']) ? $user_data['email'] : ''; ?>">
+                                value="<?php echo isset ($user_data['email']) ? $user_data['email'] : ''; ?>">
                         </div>
                         <div class="col-6">
                             <label for="phone_number" class="form-label">Phone Number*</label>
                             <input type="text" class="form-control" id="phone_number" name="phone_number"
-                                value="<?php echo isset($user_data['phone_number']) ? $user_data['phone_number'] : ''; ?>">
+                                value="<?php echo isset ($user_data['phone_number']) ? $user_data['phone_number'] : ''; ?>">
                         </div>
 
                         <div class="col-4 mt-3">
@@ -264,7 +295,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     width: 70%; background-color: black; border-radius: 30px; border: 1px solid black;
             cursor: pointer;" onmouseover="this.style.backgroundColor='white'; this.style.color='#551a8b';this.style.border= '2px solid #551a8b'; this.style.fontWeight='bold';"
                                 onmouseout="this.style.backgroundColor='black'; this.style.border= '2px solid black'; this.style.color='white'; this.style.fontWeight='normal';"
-                                type="submit">
+                                type="submit" name="shipping_details">
                                 Save & Continue
                             </button>
                         </div>
