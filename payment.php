@@ -2,6 +2,11 @@
 include ("includes/connectionPage.php");
 include ("functions/common_functions.php");
 
+$first_name = isset ($user_data['first_name']) ? $user_data['first_name'] : '';
+$last_name = isset ($user_data['last_name']) ? $user_data['last_name'] : '';
+
+// Concatenate first name and last name to create full name
+$full_name = $first_name . ' ' . $last_name;
 
 ?>
 
@@ -22,74 +27,74 @@ include ("functions/common_functions.php");
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
 
 
 
-        .logo {
-            width: 4%;
-            height: 4%;
-        }
+    .logo {
+        width: 4%;
+        height: 4%;
+    }
 
-        .card a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-
-        .card .nav-link {
-            position: relative;
-        }
+    .card a {
+        color: inherit;
+        text-decoration: none;
+    }
 
 
-        .image-container {
-            position: relative;
-            overflow: hidden;
-
-        }
-
-        .image-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .image-container:hover::before {
-            opacity: 1;
-        }
-
-        .image-container-img {
-            padding: 10px;
-            transition: transform 0.3s ease;
-            width: 100%;
-            height: 100%;
-        }
-
-        .image-container:hover .image-container-img {
-            transform: scale(1.1);
-        }
+    .card .nav-link {
+        position: relative;
+    }
 
 
-        .card-img-top {
-            height: 400px;
-            /* Set the desired height for the images */
-            object-fit: cover;
-        }
+    .image-container {
+        position: relative;
+        overflow: hidden;
 
-        .card-price {
-            margin-left: auto;
-        }
+    }
+
+    .image-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .image-container:hover::before {
+        opacity: 1;
+    }
+
+    .image-container-img {
+        padding: 10px;
+        transition: transform 0.3s ease;
+        width: 100%;
+        height: 100%;
+    }
+
+    .image-container:hover .image-container-img {
+        transform: scale(1.1);
+    }
+
+
+    .card-img-top {
+        height: 400px;
+        /* Set the desired height for the images */
+        object-fit: cover;
+    }
+
+    .card-price {
+        margin-left: auto;
+    }
     </style>
 </head>
 
@@ -171,6 +176,52 @@ include ("functions/common_functions.php");
                     <h5>Payment Details</h5>
                 </div>
 
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <?php echo $full_name ?>
+                    </li>
+                    <li class="list-group-item">
+                        <?php
+                        $select_query = "SELECT * FROM `shipping_details`";
+                        $result_query = mysqli_query($con, $select_query);
+                        while ($row = mysqli_fetch_assoc($result_query)) {
+                            $address = $row['address'];
+                            $city = $row['city'];
+                            $state = $row['state'];
+                            $zip = $row['zip'];
+                            echo $address . ", " . $city . ", " . $state . ", " . $zip;
+                        } ?>
+                    </li>
+                    <li class="list-group-item">
+                        <?php
+                        $select_query = "SELECT * FROM `shipping_details`";
+                        $result_query = mysqli_query($con, $select_query);
+                        while ($row = mysqli_fetch_assoc($result_query)) {
+                            $digital_address = $row['digital_address'];
+                            echo $digital_address;
+                        } ?>
+                    </li>
+                    <li class="list-group-item">
+                        <?php
+                        $select_query = "SELECT * FROM `shipping_details`";
+                        $result_query = mysqli_query($con, $select_query);
+                        while ($row = mysqli_fetch_assoc($result_query)) {
+                            $email = $row['email'];
+                            echo $email;
+                        } ?>
+                    </li>
+                    <li class="list-group-item">
+                        <?php
+                        $select_query = "SELECT * FROM `shipping_details`";
+                        $result_query = mysqli_query($con, $select_query);
+                        while ($row = mysqli_fetch_assoc($result_query)) {
+                            $phone_number = $row['phone_number'];
+                            echo $phone_number;
+                        } ?>
+                    </li>
+
+                </ul>
+
                 <form id="paymentForm">
                     <div class="form-submit">
                         <button type="submit" class="btn btn-primary mt-2" onclick="payWithPaystack()">Pay</button>
@@ -181,38 +232,37 @@ include ("functions/common_functions.php");
             <!--col end-->
             <?php
             include ("payconfigs.php");
-            $email = $_SESSION['email'];
             $amount = $_SESSION['total_price'] * 100;
             $currency = "USD";
             ?>
 
             <script>
-                const paymentForm = document.getElementById('paymentForm');
-                paymentForm.addEventListener("submit", payWithPaystack, false);
+            const paymentForm = document.getElementById('paymentForm');
+            paymentForm.addEventListener("submit", payWithPaystack, false);
 
-                function payWithPaystack(e) {
-                    e.preventDefault();
+            function payWithPaystack(e) {
+                e.preventDefault();
 
-                    let handler = PaystackPop.setup({
-                        key: '<?php echo $publicKey ?>', // Replace with your public key
-                        email: '<?php echo $email ?>',
-                        amount: '<?php echo $amount ?>',
-                        currency: '<?php echo $currency ?>',
-                        ref: '' + Math.floor((Math.random() * 1000000000) +
-                            1
-                        ), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
-                        // label: "Optional string that replaces customer email"
-                        onClose: function () {
-                            alert('Window closed.');
-                        },
-                        callback: function (response) {
-                            let message = 'Payment complete! Reference: ' + response.reference;
-                            alert(message);
-                        }
-                    });
+                let handler = PaystackPop.setup({
+                    key: '<?php echo $publicKey ?>', // Replace with your public key
+                    email: '<?php echo $email ?>',
+                    amount: '<?php echo $amount ?>',
+                    currency: '<?php echo $currency ?>',
+                    ref: '' + Math.floor((Math.random() * 1000000000) +
+                        1
+                    ), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+                    // label: "Optional string that replaces customer email"
+                    onClose: function() {
+                        alert('Window closed.');
+                    },
+                    callback: function(response) {
+                        let message = 'Payment complete! Reference: ' + response.reference;
+                        alert(message);
+                    }
+                });
 
-                    handler.openIframe();
-                }
+                handler.openIframe();
+            }
             </script>
 
             <div class="col-md-4 p-3">
@@ -297,7 +347,7 @@ include ("functions/common_functions.php");
     <!-- Bootstrap js link -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+    </script>
 
 
 

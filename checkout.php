@@ -9,7 +9,7 @@ if (isset ($_POST['shipping_details'])) {
     $first_name = $_POST['firstName'];
     $last_name = $_POST['lastName'];
     $address = $_POST['address'];
-    $address2 = $_POST['address2'];
+    $digital_address = $_POST['digital_address'];
     $city = $_POST['city'];
     $state = $_POST['state'];
     $zip = $_POST['zip'];
@@ -23,30 +23,40 @@ if (isset ($_POST['shipping_details'])) {
     ) {
         echo "<script>alert('Please fill out all fields!')</script>";
     } else {
+        // Check if email already exists in the database
+        $check_query = $con->prepare("SELECT * FROM `shipping_details` WHERE `email` = ?");
+        $check_query->bind_param("s", $email);
+        $check_query->execute();
+        $result = $check_query->get_result();
 
-        // Prepare the statement
-        $query = $con->prepare("INSERT INTO `shipping_details` (first_name, last_name, address,
-                                address2, city, state, zip, email, phone_number, time) 
+        if ($result->num_rows > 0) {
+            // Email already exists in the database
+            echo "<script>alert('Email in use')</script>";
+        } else {
+            // Prepare the statement
+            $query = $con->prepare("INSERT INTO `shipping_details` (first_name, last_name, address,
+                                digital_address, city, state, zip, email, phone_number, time) 
                                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, now())");
 
-        if ($query) {
-            // Bind the parameters
-            $query->bind_param("sssssssss", $first_name, $last_name, $address, $address2, $city, $state, $zip, $email, $phone_number);
+            if ($query) {
+                // Bind the parameters
+                $query->bind_param("sssssssss", $first_name, $last_name, $address, $digital_address, $city, $state, $zip, $email, $phone_number);
 
-            // Execute the statement
-            if ($query->execute()) {
-                echo "<script>alert('Shipping Details Added Successfully'); window.location='payment.php';</script>";
-                exit;
+                // Execute the statement
+                if ($query->execute()) {
+                    echo "<script>alert('Shipping Details Added Successfully'); window.location='payment.php';</script>";
+                    exit;
+                } else {
+                    // Handle execution errors
+                    echo "<script>alert('Error: Unable to add shipping details')</script>";
+                }
+
+                // Close the statement
+                $query->close();
             } else {
-                // Handle execution errors
-                echo "<script>alert('Error: Unable to add shipping details')</script>";
+                // Handle statement preparation errors
+                echo "<script>alert('Error: Unable to prepare statement')</script>";
             }
-
-            // Close the statement
-            $query->close();
-        } else {
-            // Handle statement preparation errors
-            echo "<script>alert('Error: Unable to prepare statement')</script>";
         }
     }
 }
@@ -251,9 +261,9 @@ if (isset ($_POST['shipping_details'])) {
                                 placeholder="5 Dingo St">
                         </div>
                         <div class="col-12">
-                            <label for="address2" class="form-label">Address 2</label>
-                            <input type="text" class="form-control" id="address2" name="address2"
-                                placeholder="Apartment, studio, or floor">
+                            <label for="digital_address" class="form-label">Digital Address</label>
+                            <input type="text" class="form-control" id="digital_address" name="digital_address"
+                                placeholder="GM-591-9130">
                         </div>
                         <div class="col-md-6">
                             <label for="city" class="form-label">City</label>
