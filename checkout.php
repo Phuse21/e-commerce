@@ -44,7 +44,7 @@ if (isset ($_POST['shipping_details'])) {
 
                 // Execute the statement
                 if ($query->execute()) {
-                    echo "<script>alert('Shipping Details Added Successfully'); window.location='payment.php';</script>";
+                    echo "<script>alert('Shipping Details Added Successfully'); window.location='payment/payment.php';</script>";
                     exit;
                 } else {
                     // Handle execution errors
@@ -311,16 +311,6 @@ if (isset ($_POST['shipping_details'])) {
                         </div>
                     </form>
 
-                    <!-- <form id="paymentForm">
-                        <div class="form-submit">
-                            <button type="submit" class="btn btn-primary mt-2" style="padding: 10px;
-    width: 10%; background-color: black; border-radius: 15px; border: 1px solid black;
-            cursor: pointer;" onmouseover="this.style.backgroundColor='white'; this.style.color='#551a8b';this.style.border= '2px solid #551a8b'; this.style.fontWeight='bold';"
-                                onmouseout="this.style.backgroundColor='black'; this.style.border= '2px solid black'; this.style.color='white'; this.style.fontWeight='normal';"
-                                onclick="payWithPaystack()">Pay</button>
-                        </div>
-                    </form>
-                    <script src="https://js.paystack.co/v1/inline.js"></script> -->
 
                 </div>
 

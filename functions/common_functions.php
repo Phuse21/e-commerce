@@ -5,8 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-//include connection
-include ("./includes/connectionPage.php");
+
 
 
 // check if user is logged in

@@ -1,3 +1,3 @@
 <?php
-$secretKey = 'sk_test_7e50a297e5c84e264bd63347b35de96b93ecd335';
+$secretKey = 'sk_test_c8014d81d1d1f3b241c42cb992fd8e56e87a1e53';
 $publicKey = 'pk_test_fcf01b4ee2edc0eb9dce29007e1ebc953f0ada2f';

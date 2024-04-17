@@ -2,11 +2,25 @@
 include ("includes/connectionPage.php");
 include ("functions/common_functions.php");
 
-$first_name = isset ($user_data['first_name']) ? $user_data['first_name'] : '';
-$last_name = isset ($user_data['last_name']) ? $user_data['last_name'] : '';
+$full_name = isset ($user_data['first_name']) && isset ($user_data['last_name']) ? $user_data['first_name'] . ' ' . $user_data['last_name'] : '';
 
-// Concatenate first name and last name to create full name
-$full_name = $first_name . ' ' . $last_name;
+// Fetch user's shipping details
+$shipping_details_query = $con->prepare("SELECT * FROM `shipping_details` WHERE `email` = ?");
+$shipping_details_query->bind_param("s", $user_data['email']);
+$shipping_details_query->execute();
+$result = $shipping_details_query->get_result();
+
+if ($result->num_rows > 0) {
+    // Fetch and display shipping details
+    $shipping_details = $result->fetch_assoc();
+    $address = $shipping_details['address'];
+    $city = $shipping_details['city'];
+    $state = $shipping_details['state'];
+    $zip = $shipping_details['zip'];
+    $digital_address = $shipping_details['digital_address'];
+    $email = $shipping_details['email'];
+    $phone_number = $shipping_details['phone_number'];
+}
 
 ?>
 
@@ -25,6 +39,7 @@ $full_name = $first_name . ' ' . $last_name;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <style>
     * {
@@ -178,56 +193,36 @@ $full_name = $first_name . ' ' . $last_name;
 
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <?php echo $full_name ?>
+                        <?php echo $full_name; ?>
                     </li>
                     <li class="list-group-item">
-                        <?php
-                        $select_query = "SELECT * FROM `shipping_details`";
-                        $result_query = mysqli_query($con, $select_query);
-                        while ($row = mysqli_fetch_assoc($result_query)) {
-                            $address = $row['address'];
-                            $city = $row['city'];
-                            $state = $row['state'];
-                            $zip = $row['zip'];
-                            echo $address . ", " . $city . ", " . $state . ", " . $zip;
-                        } ?>
+                        <?php echo isset ($address) ? "$address, $city, $state, $zip" : ''; ?>
                     </li>
                     <li class="list-group-item">
-                        <?php
-                        $select_query = "SELECT * FROM `shipping_details`";
-                        $result_query = mysqli_query($con, $select_query);
-                        while ($row = mysqli_fetch_assoc($result_query)) {
-                            $digital_address = $row['digital_address'];
-                            echo $digital_address;
-                        } ?>
+                        <?php echo isset ($digital_address) ? $digital_address : ''; ?>
                     </li>
                     <li class="list-group-item">
-                        <?php
-                        $select_query = "SELECT * FROM `shipping_details`";
-                        $result_query = mysqli_query($con, $select_query);
-                        while ($row = mysqli_fetch_assoc($result_query)) {
-                            $email = $row['email'];
-                            echo $email;
-                        } ?>
+                        <?php echo isset ($email) ? $email : ''; ?>
                     </li>
                     <li class="list-group-item">
-                        <?php
-                        $select_query = "SELECT * FROM `shipping_details`";
-                        $result_query = mysqli_query($con, $select_query);
-                        while ($row = mysqli_fetch_assoc($result_query)) {
-                            $phone_number = $row['phone_number'];
-                            echo $phone_number;
-                        } ?>
+                        <?php echo isset ($phone_number) ? $phone_number : ''; ?>
                     </li>
-
                 </ul>
+                <br>
+                <br>
 
                 <form id="paymentForm">
                     <div class="form-submit">
-                        <button type="submit" class="btn btn-primary mt-2" onclick="payWithPaystack()">Pay</button>
+                        <button type="submit" class="btn btn-primary mt-2" style="padding: 10px;
+    width: 10%; background-color: black; border-radius: 15px; border: 1px solid black;
+            cursor: pointer;"
+                            onmouseover="this.style.backgroundColor='white'; this.style.color='#551a8b';this.style.border= '2px solid #551a8b'; this.style.fontWeight='bold';"
+                            onmouseout="this.style.backgroundColor='black'; this.style.border= '2px solid black'; this.style.color='white'; this.style.fontWeight='normal';"
+                            onclick="payWithPaystack()">Pay</button>
                     </div>
                 </form>
                 <script src="https://js.paystack.co/v1/inline.js"></script>
+
             </div>
             <!--col end-->
             <?php
@@ -242,22 +237,25 @@ $full_name = $first_name . ' ' . $last_name;
 
             function payWithPaystack(e) {
                 e.preventDefault();
-
                 let handler = PaystackPop.setup({
-                    key: '<?php echo $publicKey ?>', // Replace with your public key
-                    email: '<?php echo $email ?>',
-                    amount: '<?php echo $amount ?>',
-                    currency: '<?php echo $currency ?>',
+                    key: '<?php echo $PublicKey; ?>', // Replace with your public key
+                    email: '<?php echo $email; ?>',
+                    amount: <?php echo $amount; ?> * 100,
+                    currency: '<?php echo $currency; ?>', // Use GHS for Ghana Cedis or USD for US Dollars or KES for Kenya Shillings
                     ref: '' + Math.floor((Math.random() * 1000000000) +
                         1
                     ), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
                     // label: "Optional string that replaces customer email"
                     onClose: function() {
-                        alert('Window closed.');
+                        alert('Transaction was not completed, window closed.');
                     },
                     callback: function(response) {
                         let message = 'Payment complete! Reference: ' + response.reference;
                         alert(message);
+                        window.location.href =
+                            "http://localhost/PayStack-With-PHP/verify_transaction.php?reference=" +
+                            response
+                            .reference;
                     }
                 });
 
@@ -348,6 +346,9 @@ $full_name = $first_name . ' ' . $last_name;
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
+
+
+
 
 
 
