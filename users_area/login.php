@@ -39,10 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     header("Location: $redirect_url");
                     exit();
                 } else {
-                    $password_error = "Incorrect password";
+                    $email_error = "Incorrect Email or Password";
                 }
             } else {
-                $email_error = "Email not found";
+                $email_error = "Incorrect Email or Password";
             }
         } else {
             // Handle database query error
@@ -209,15 +209,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <label for="email" class="form-label">Email address</label>
                             <input id="email" type="text" name="email" class="form-control"
                                 value="<?php echo $email; ?>" autocomplete="off" required>
-                            <p class="error password-error">
-                                <?php echo $email_error; ?>
-                            </p>
+                            <br>
+
                             <label for="email" class="form-label">Password</label>
                             <input type="password" id="password" name="password" class="form-control"
                                 value="<?php echo $password; ?>" required>
-                            <p class="error password-error">
-                                <?php echo $password_error; ?>
-                            </p> <br>
+                            <br>
                             <button class="btn btn-primary btn-sm mt-2 mb-2 text-center" style="padding: 10px;
         width: 70%; background-color: black; border-radius: 30px; border: 1px solid black
                 cursor: pointer; margin-left: 60px;"
