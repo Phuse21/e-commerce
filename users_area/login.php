@@ -145,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
     .side-image {
-        background-image: url("../images/background.jpg");
+        background-image: url("../images/background3.jpg");
         background-position: center;
         background-size: cover;
         background-repeat: no-repeat;
