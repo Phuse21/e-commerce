@@ -2,10 +2,10 @@
 include ("includes/connectionPage.php");
 include ("functions/common_functions.php");
 
-$full_name = isset ($user_data['first_name']) && isset ($user_data['last_name']) ? $user_data['first_name'] . ' ' . $user_data['last_name'] : '';
+$full_name = isset($user_data['first_name']) && isset($user_data['last_name']) ? $user_data['first_name'] . ' ' . $user_data['last_name'] : '';
 
 // Fetch user's shipping details
-$shipping_details_query = $con->prepare("SELECT * FROM `shipping_details` WHERE `email` = ?");
+$shipping_details_query = $con->prepare("SELECT * FROM `users` WHERE `email` = ?");
 $shipping_details_query->bind_param("s", $user_data['email']);
 $shipping_details_query->execute();
 $result = $shipping_details_query->get_result();
@@ -156,13 +156,13 @@ if ($result->num_rows > 0) {
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#">Welcome
-                        <?php if (isset ($user_data['user_name'])) {
+                        <?php if (isset($user_data['user_name'])) {
                             echo $user_data['user_name'];
                         } else
                             echo "Guest"; ?>
                     </a>
                 </li>
-                <?php if (isset ($user_data['user_name'])) {
+                <?php if (isset($user_data['user_name'])) {
                     echo "<li class='nav-item'>
                     <a class='nav-link' href='users_area/logout.php'>Logout</a>
                 </li>";
@@ -196,16 +196,16 @@ if ($result->num_rows > 0) {
                         <?php echo $full_name; ?>
                     </li>
                     <li class="list-group-item">
-                        <?php echo isset ($address) ? "$address, $city, $state, $zip" : ''; ?>
+                        <?php echo isset($address) ? "$address, $city, $state, $zip" : ''; ?>
                     </li>
                     <li class="list-group-item">
-                        <?php echo isset ($digital_address) ? $digital_address : ''; ?>
+                        <?php echo isset($digital_address) ? $digital_address : ''; ?>
                     </li>
                     <li class="list-group-item">
-                        <?php echo isset ($email) ? $email : ''; ?>
+                        <?php echo isset($email) ? $email : ''; ?>
                     </li>
                     <li class="list-group-item">
-                        <?php echo isset ($phone_number) ? $phone_number : ''; ?>
+                        <?php echo isset($phone_number) ? $phone_number : ''; ?>
                     </li>
                 </ul>
                 <br>
@@ -274,7 +274,7 @@ if ($result->num_rows > 0) {
                     <h6>
                         <?php
                         //check if subtotal is stored in session
-                        if (isset ($_SESSION['subtotal'])) {
+                        if (isset($_SESSION['subtotal'])) {
                             $subtotal = $_SESSION['subtotal'];
                             //display subtotal
                             echo "Subtotal: $" . number_format($subtotal, 2);
@@ -291,7 +291,7 @@ if ($result->num_rows > 0) {
                     <h6>
                         <?php
                         //check if VAT is stored in session
-                        if (isset ($_SESSION['vat'])) {
+                        if (isset($_SESSION['vat'])) {
                             $vat = $_SESSION['vat'];
                             //display VAT
                             echo "VAT: $" . number_format($vat, 2);
@@ -308,7 +308,7 @@ if ($result->num_rows > 0) {
                     <h6>
                         <?php
                         //check if Total Price is stored in session
-                        if (isset ($_SESSION['total_price'])) {
+                        if (isset($_SESSION['total_price'])) {
                             $total_price = $_SESSION['total_price'];
                             //display Total Price
                             echo "Total Price: $" . number_format($total_price, 2);
